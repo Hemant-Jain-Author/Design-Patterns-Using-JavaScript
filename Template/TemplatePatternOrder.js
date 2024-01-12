@@ -1,46 +1,53 @@
-import java.io.*;
-
-abstract class OrderPackingTemplate {
-    
-    final void packProduct() {
-        getProduct();
-        addProductToBox();
-        delivery();
+// Define OrderPackingTemplate
+class OrderPackingTemplate {
+    packProduct() {
+        this.getProduct();
+        this.addProductToBox();
+        this.delivery();
     }
 
-    void getProduct() {
-        System.out.println("Get the product from the shelf.");
+    getProduct() {
+        console.log("Get the product from the shelf.");
     }
 
-    void addProductToBox() {
-        System.out.println("Put the product inside the box.");
+    addProductToBox() {
+        console.log("Put the product inside the box.");
     }
 
-    abstract void delivery();
+    delivery() {
+        throw new Error("delivery method must be implemented");
+    }
 }
 
+// Define OnlineOrderPacking extending OrderPackingTemplate
 class OnlineOrderPacking extends OrderPackingTemplate {
-    @Override
-    void delivery() {
-        System.out.println("Add delivery address slip and ship.");
+    delivery() {
+        console.log("Add delivery address slip and ship.");
     }
 }
 
+// Define StoreOrderPacking extending OrderPackingTemplate
 class StoreOrderPacking extends OrderPackingTemplate {
-    @Override
-    void delivery() {
-        System.out.println("Add thanks message to the box and deliver to the customer.");
+    delivery() {
+        console.log("Add thanks message to the box and deliver to the customer.");
     }
 }
 
-public class TemplatePatternOrder {
-    public static void main(String[] args) {
-        OnlineOrderPacking onlineOrder = new OnlineOrderPacking();
-        onlineOrder.packProduct();
+// Client code
+const onlineOrder = new OnlineOrderPacking();
+onlineOrder.packProduct();
 
-        System.out.println();
+console.log();
 
-        StoreOrderPacking storeOrder = new StoreOrderPacking();
-        storeOrder.packProduct();
-    }
-}
+const storeOrder = new StoreOrderPacking();
+storeOrder.packProduct();
+
+/*
+Get the product from the shelf.
+Put the product inside the box.
+Add delivery address slip and ship.
+
+Get the product from the shelf.
+Put the product inside the box.
+Add thanks message to the box and deliver to the customer.
+*/

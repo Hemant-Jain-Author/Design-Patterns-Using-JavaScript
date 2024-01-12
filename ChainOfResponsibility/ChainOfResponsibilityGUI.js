@@ -1,84 +1,75 @@
-abstract class Handler {
-    protected Handler parent;
-    protected String helpText;
-
-    public Handler(Handler parent) {
+class Handler {
+    constructor(parent) {
         this.parent = parent;
         this.helpText = null;
     }
 
-    public abstract void showHelperText();
+    showHelperText() {
+        throw new Error("Abstract method: showHelperText");
+    }
 
-    public void setHelperText(String text) {
+    setHelperText(text) {
         this.helpText = text;
     }
 }
 
 class Container extends Handler {
-    public Container(Handler parent) {
+    constructor(parent) {
         super(parent);
     }
 
-    @Override
-    public void showHelperText() {
-        if (helpText != null) {
-            System.out.println("Help :: " + helpText);
-        } else if (parent != null) {
-            System.out.println("Message passed to next in chain by Container");
-            parent.showHelperText();
+    showHelperText() {
+        if (this.helpText !== null) {
+            console.log("Help :: " + this.helpText);
+        } else if (this.parent !== null) {
+            console.log("Message passed to next in chain by Container");
+            this.parent.showHelperText();
         }
     }
 }
 
 class Button extends Handler {
-    private String label;
-
-    public Button(String label, Handler parent) {
+    constructor(label, parent) {
         super(parent);
         this.label = label;
     }
 
-    @Override
-    public void showHelperText() {
-        if (helpText != null) {
-            System.out.println("Help :: " + helpText);
-        } else if (parent != null) {
-            System.out.println("Message passed to next in chain by Button");
-            parent.showHelperText();
+    showHelperText() {
+        if (this.helpText !== null) {
+            console.log("Help :: " + this.helpText);
+        } else if (this.parent !== null) {
+            console.log("Message passed to next in chain by Button");
+            this.parent.showHelperText();
         }
     }
 }
 
 class Panel extends Handler {
-    public Panel() {
+    constructor() {
         super(null);
     }
 
-    @Override
-    public void showHelperText() {
-        if (helpText != null) {
-            System.out.println("Help :: " + helpText);
-        } else if (parent != null) {
-            System.out.println("Message passed to next in chain by Panel");
-            parent.showHelperText();
+    showHelperText() {
+        if (this.helpText !== null) {
+            console.log("Help :: " + this.helpText);
+        } else if (this.parent !== null) {
+            console.log("Message passed to next in chain by Panel");
+            this.parent.showHelperText();
         }
     }
 }
 
-public class ChainOfResponsibilityGUI {
-    public static void main(String[] args) {
-        Panel p = new Panel();
-        p.setHelperText("Panel help text.");
+// Client code
+const p = new Panel();
+p.setHelperText("Panel help text.");
 
-        Button b1 = new Button("Ok", p);
-        b1.setHelperText("Ok button help text.");
+const b1 = new Button("Ok", p);
+b1.setHelperText("Ok button help text.");
 
-        Button b2 = new Button("Cancel", p);
+const b2 = new Button("Cancel", p);
 
-        b1.showHelperText();
-        b2.showHelperText();
-    }
-}
+b1.showHelperText();
+b2.showHelperText();
 
 /*
 Help :: Ok button help text.

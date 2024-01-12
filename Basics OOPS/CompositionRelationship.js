@@ -1,38 +1,28 @@
-import java.util.ArrayList;
-import java.util.List;
-
 class Tyre {
-    private String type;
-
-    public Tyre(String type) {
+    constructor(type) {
         this.type = type;
     }
 
-    public String getType() {
-        return type;
+    getType() {
+        return this.type;
     }
 }
 
 class Car {
-    private String model;
-    private List<Tyre> tyres;
-
-    public Car(String model) {
+    constructor(model) {
         this.model = model;
-        this.tyres = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            this.tyres.add(new Tyre("MRF"));
-        }
+        this.tyres = Array.from({ length: 4 }, () => new Tyre("MRF"));
     }
 
-    public void display() {
-        System.out.println("Car: " + model + ", Tyre: " + tyres.get(0).getType());
+    display() {
+        console.log(`Car: ${this.model}, Tyre: ${this.tyres[0].getType()}`);
     }
 }
 
-public class CompositionRelationship {
-    public static void main(String[] args) {
-        Car car = new Car("BMW");
-        car.display();
-    }
-}
+// Client code
+const car = new Car("BMW");
+car.display();
+
+/*
+Car: BMW, Tyre: MRF
+*/

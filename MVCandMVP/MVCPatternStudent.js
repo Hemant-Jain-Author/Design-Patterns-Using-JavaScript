@@ -1,74 +1,61 @@
 class Student {
-    String name;
-    int id;
-
-    public Student(String name, int id) {
+    constructor(name, id) {
         this.name = name;
         this.id = id;
     }
 }
 
 class Model {
-    private Student student;
-
-    public Model() {
+    constructor() {
         this.student = new Student("Harry", 1);
     }
 
-    public void setData(String name, int id) {
-        System.out.println("Model: Set data : " + name + " " + id);
-        student.name = name;
-        student.id = id;
+    setData(name, id) {
+        console.log("Model: Set data : " + name + " " + id);
+        this.student.name = name;
+        this.student.id = id;
     }
 
-    public Student getData() {
-        System.out.println("Model: Get data.");
-        return student;
+    getData() {
+        console.log("Model: Get data.");
+        return this.student;
     }
 }
 
 class View {
-    private Model model;
-
-    public View(Model model) {
+    constructor(model) {
         this.model = model;
     }
 
-    public void update() {
-        Student student = model.getData();
-        System.out.println("View: Student Info, Name: " + student.name + " Id: " + student.id);
+    update() {
+        const student = this.model.getData();
+        console.log("View: Student Info, Name: " + student.name + " Id: " + student.id);
     }
 }
 
 class Controller {
-    private Model model;
-    private View view;
-
-    public Controller() {
+    constructor() {
         this.model = new Model();
-        this.view = new View(model);
+        this.view = new View(this.model);
     }
 
-    public void setData(String name, int id) {
-        System.out.println("Controller: Receive data from client.");
-        model.setData(name, id);
+    setData(name, id) {
+        console.log("Controller: Receive data from client.");
+        this.model.setData(name, id);
     }
 
-    public void updateView() {
-        System.out.println("Controller: Receive update view from client.");
-        view.update();
-    }
-}
-
-public class MVCPatternStudent {
-    public static void main(String[] args) {
-        Controller controller = new Controller();
-        controller.updateView();
-
-        controller.setData("Jack", 2);
-        controller.updateView();
+    updateView() {
+        console.log("Controller: Receive update view from client.");
+        this.view.update();
     }
 }
+
+// Main class (Client code)
+const controller = new Controller();
+controller.updateView();
+
+controller.setData("Jack", 2);
+controller.updateView();
 
 /*
 Controller: Receive update view from client.

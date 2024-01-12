@@ -1,68 +1,57 @@
 // Model class
 class Model {
-    private String data;
-
-    public Model() {
+    constructor() {
         this.data = "Hello, World!";
     }
 
-    public void setData(String data) {
-        System.out.println("Model: Set data : " + data);
+    setData(data) {
+        console.log("Model: Set data : " + data);
         this.data = data;
     }
 
-    public String getData() {
-        System.out.println("Model: Get data: " + data);
-        return data;
+    getData() {
+        console.log("Model: Get data: " + this.data);
+        return this.data;
     }
 }
 
 // View class
 class View {
-    private Model model;
-
-    public View(Model model) {
+    constructor(model) {
         this.model = model;
     }
 
     // In classic MVC, the view interacts with the model to get data.
-    public void update() {
-        String data = model.getData();
-        System.out.println("View: Updating the view with data : " + data);
+    update() {
+        const data = this.model.getData();
+        console.log("View: Updating the view with data : " + data);
     }
 }
 
 // Controller class
 class Controller {
-    private Model model;
-    private View view;
-
-    public Controller() {
+    constructor() {
         this.model = new Model();
-        this.view = new View(model);
+        this.view = new View(this.model);
     }
 
-    public void setData(String data) {
-        System.out.println("Controller: Receive data from client.");
-        model.setData(data);
+    setData(data) {
+        console.log("Controller: Receive data from client.");
+        this.model.setData(data);
     }
 
-    public void updateView() {
-        System.out.println("Controller: Receive update view from client.");
-        view.update();
+    updateView() {
+        console.log("Controller: Receive update view from client.");
+        this.view.update();
     }
 }
 
 // Main class (Client code)
-public class MVCPattern {
-    public static void main(String[] args) {
-        Controller controller = new Controller();
-        controller.updateView();
+const controller = new Controller();
+controller.updateView();
 
-        controller.setData("Hello, Students!");
-        controller.updateView();
-    }
-}
+controller.setData("Hello, Students!");
+controller.updateView();
 
 /*
 Controller: Receive update view from client.

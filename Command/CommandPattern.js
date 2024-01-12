@@ -1,73 +1,70 @@
-import java.util.ArrayList;
-import java.util.List;
-
 // Invoker
 class Invoker {
-    private List<Command> commands = new ArrayList<>();
-
-    public void setCommand(Command command) {
-        commands.add(command);
+    constructor() {
+        this.commands = [];
     }
 
-    public void executeCommands() {
-        for (Command command : commands) {
+    setCommand(command) {
+        this.commands.push(command);
+    }
+
+    executeCommands() {
+        for (const command of this.commands) {
             command.execute();
         }
     }
 
-    public void unexecuteCommands() {
-        for (Command command : commands) {
+    unexecuteCommands() {
+        for (const command of this.commands) {
             command.unexecute();
         }
     }
 }
 
 // Command
-abstract class Command {
-    public abstract void execute();
-    public abstract void unexecute();
+class Command {
+    execute() {
+        throw new Error("Abstract method: execute");
+    }
+
+    unexecute() {
+        throw new Error("Abstract method: unexecute");
+    }
 }
 
 // ConcreteCommand
 class ConcreteCommand extends Command {
-    private Receiver receiver;
-
-    public ConcreteCommand(Receiver receiver) {
+    constructor(receiver) {
+        super();
         this.receiver = receiver;
     }
 
-    @Override
-    public void execute() {
-        receiver.action("Action 1");
+    execute() {
+        this.receiver.action("Action 1");
     }
 
-    @Override
-    public void unexecute() {
-        receiver.action("Action 2");
+    unexecute() {
+        this.receiver.action("Action 2");
     }
 }
 
 // Receiver
 class Receiver {
-    public void action(String action) {
-        System.out.println(action);
+    action(action) {
+        console.log(action);
     }
 }
 
 // Client Code
-public class CommandPattern {
-    public static void main(String[] args) {
-        Receiver receiver = new Receiver();
-        ConcreteCommand concreteCommand = new ConcreteCommand(receiver);
-        Invoker invoker = new Invoker();
+const receiver = new Receiver();
+const concreteCommand = new ConcreteCommand(receiver);
+const invoker = new Invoker();
 
-        invoker.setCommand(concreteCommand);
-        invoker.executeCommands();
-        invoker.unexecuteCommands();
-    }
-}
+invoker.setCommand(concreteCommand);
+invoker.executeCommands();
+invoker.unexecuteCommands();
 
 /*
 Action 1
 Action 2
- */
+*/

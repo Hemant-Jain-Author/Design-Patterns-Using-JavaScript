@@ -1,56 +1,52 @@
 // Define the Product class with two parts
 class Product {
-    private String partA;
-    private String partB;
-
-    public Product(String A, String B) {
+    constructor(A = "A default", B = "B default") {
         this.partA = A;
         this.partB = B;
     }
 
-    public void setPartA(String A){
+    setPartA(A) {
         this.partA = A;
     }
 
-    public void setPartB(String B){
+    setPartB(B) {
         this.partB = B;
     }
 
-    @Override
-    public String toString() {
-        return String.format("Product : (%s, %s)", partA, partB);
+    toString() {
+        return `Product : (${this.partA}, ${this.partB})`;
     }
 }
 
 // Define an abstract class called Builder
-abstract class Builder {
-    protected Product product;
-
-    public Builder() {
-        this.product = new Product("A default", "B default");
+class Builder {
+    constructor() {
+        this.product = new Product();
     }
 
-    public abstract Builder setPartA(String A);
+    setPartA(A) {
+        throw new Error("Abstract method: setPartA");
+    }
 
-    public abstract Builder setPartB(String B);
+    setPartB(B) {
+        throw new Error("Abstract method: setPartB");
+    }
 
-    public Product getProduct() {
-        Product temp = this.product;
-        this.product = new Product("A default", "B default"); // assign new product.
+    getProduct() {
+        const temp = this.product;
+        this.product = new Product(); // assign new product.
         return temp;
     }
 }
 
 // Define a ConcreteBuilder class that extends Builder
 class ConcreteBuilder extends Builder {
-    @Override
-    public Builder setPartA(String A) {
+    setPartA(A) {
         this.product.setPartA(A);
         return this;
     }
 
-    @Override
-    public Builder setPartB(String B) {
+    setPartB(B) {
         this.product.setPartB(B);
         return this;
     }
@@ -58,46 +54,40 @@ class ConcreteBuilder extends Builder {
 
 // Define a Director class that takes a builder object as a parameter
 class Director {
-    private Builder builder;
-
-    public Director(Builder builder) {
+    constructor(builder) {
         this.builder = builder;
     }
 
-    public Product construct() {
+    construct() {
         return this.builder.setPartA("A1").setPartB("B1").getProduct();
     }
 
-    public Product construct2() {
+    construct2() {
         this.builder.setPartA("A2");
         this.builder.setPartB("B2");
         return this.builder.getProduct();
     }
 
-    public Product construct3() {
+    construct3() {
         return this.builder.setPartA("A3").getProduct();
     }
 }
 
 // Client code
-public class BuilderPattern {
-    public static void main(String[] args) {
-        Builder builder = new ConcreteBuilder();
-        Director director = new Director(builder);
+const builder = new ConcreteBuilder();
+const director = new Director(builder);
 
-        Product product = director.construct();
-        System.out.println(product);
+const product = director.construct();
+console.log(product.toString());
 
-        Product product2 = director.construct2();
-        System.out.println(product2);
+const product2 = director.construct2();
+console.log(product2.toString());
 
-        Product product3 = director.construct3();
-        System.out.println(product3);
-    }
-}
+const product3 = director.construct3();
+console.log(product3.toString());
 
 /*
 Product : (A1, B1)
 Product : (A2, B2)
 Product : (A3, B default)
- */
+*/

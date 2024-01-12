@@ -1,49 +1,38 @@
 class Database {
-    public Database() {
-        System.out.println("Database created");
+    constructor() {
+        console.log("Database created");
     }
 
-    public void addData(String data) {
-        System.out.println(data);
+    addData(data) {
+        console.log(data);
     }
 }
 
 class Singleton {
-    private static Singleton instance = null;
-    private Database db;
-
-    private Singleton() {
-        instance = this;
-        db = new Database();
+    constructor() {
+        if (!Singleton.instance) {
+            Singleton.instance = this;
+            this.db = new Database();
+        }
+        return Singleton.instance;
     }
 
-    public static Singleton getInstance() {
-        if (instance == null) {
+    static getInstance() {
+        if (!Singleton.instance) {
             new Singleton();
         }
-        return instance;
+        return Singleton.instance;
     }
 
-    public void addData(String data) {
-        db.addData(data);
-    }
-}
-
-public class SingletonDemo {
-    public static void main(String[] args) {
-        Singleton s1 = Singleton.getInstance();
-        Singleton s2 = Singleton.getInstance();
-
-        System.out.println(s1);
-        System.out.println(s2);
-
-        s2.addData("Hello, world!");
+    addData(data) {
+        this.db.addData(data);
     }
 }
 
-/*
-Database created
-Singleton@7344699f
-Singleton@7344699f
-Hello, world!
- */
+// Client code
+const s1 = Singleton.getInstance();
+const s2 = Singleton.getInstance();
+
+console.log(s1 === s2); // true, because it's the same instance
+
+s1.addData("Hello, world!");

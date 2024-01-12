@@ -1,55 +1,56 @@
 class Rectangle {
-    private double length;
-    private double breadth;
-
-    public Rectangle(double length, double breadth) {
+    constructor(length, breadth) {
         this.length = length;
         this.breadth = breadth;
     }
 
-    public double area() {
-        return length * breadth;
+    area() {
+        return this.length * this.breadth;
     }
 
-    public double perimeter() {
-        return 2 * (length + breadth);
+    perimeter() {
+        return 2 * (this.length + this.breadth);
     }
 
     // Overloading + operator
-    public Rectangle add(Rectangle rec) {
-        return new Rectangle(this.length + rec.length, this.breadth + rec.breadth);
+    add(rectangle) {
+        return new Rectangle(this.length + rectangle.length, this.breadth + rectangle.breadth);
     }
 
     // Overloading - operator
-    public Rectangle subtract(Rectangle rec) {
-        return new Rectangle(Math.abs(this.length - rec.length), Math.abs(this.breadth - rec.breadth));
+    subtract(rectangle) {
+        return new Rectangle(Math.abs(this.length - rectangle.length), Math.abs(this.breadth - rectangle.breadth));
     }
 
     // Overloading == operator
-    public boolean equals(Rectangle rec) {
-        return this.length == rec.length && this.breadth == rec.breadth;
+    equals(rectangle) {
+        return this.length === rectangle.length && this.breadth === rectangle.breadth;
     }
 
     // Overriding toString method
-    @Override
-    public String toString() {
-        return "Rectangle length and width: " + length + " " + breadth;
+    toString() {
+        return `Rectangle length and width: ${this.length} ${this.breadth}`;
     }
 }
 
-public class OperatorOverloading {
-    public static void main(String[] args) {
-        Rectangle r1 = new Rectangle(4, 6);
-        Rectangle r2 = new Rectangle(10, 6);
+// Client code
+const r1 = new Rectangle(4, 6);
+const r2 = new Rectangle(10, 6);
 
-        System.out.println("Is r1 == r2 ? " + r1.equals(r2));
+console.log(`Is r1 == r2 ? ${r1.equals(r2)}`);
 
-        Rectangle r3 = r1.add(r2);
-        Rectangle r4 = r1.subtract(r2);
+const r3 = r1.add(r2);
+const r4 = r1.subtract(r2);
 
-        System.out.println(r1);
-        System.out.println(r2);
-        System.out.println(r3);
-        System.out.println(r4);
-    }
-}
+console.log(r1.toString());
+console.log(r2.toString());
+console.log(r3.toString());
+console.log(r4.toString());
+
+/*
+Is r1 == r2 ? false
+Rectangle length and width: 4 6
+Rectangle length and width: 10 6
+Rectangle length and width: 14 12
+Rectangle length and width: 6 0
+*/

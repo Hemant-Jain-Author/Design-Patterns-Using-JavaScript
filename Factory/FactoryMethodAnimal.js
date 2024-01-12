@@ -1,74 +1,67 @@
-import java.util.*;
-
 // Animal interface
-interface Animal {
-    void voice();
-}
-
-// Concrete Animal classes
-class Dog implements Animal {
-    @Override
-    public void voice() {
-        System.out.println("Bhow Bhow!!");
+class Animal {
+    voice() {
+        throw new Error("Abstract method 'voice' must be implemented.");
     }
 }
 
-class Cat implements Animal {
-    @Override
-    public void voice() {
-        System.out.println("Meow Meow!!");
+// Concrete Animal classes
+class Dog extends Animal {
+    voice() {
+        console.log("Bhow Bhow!!");
+    }
+}
+
+class Cat extends Animal {
+    voice() {
+        console.log("Meow Meow!!");
     }
 }
 
 // AnimalFactory interface
-interface AnimalFactory {
-    Animal getAnimal();
+class AnimalFactory {
+    getAnimal() {
+        throw new Error("Abstract method 'getAnimal' must be implemented.");
+    }
 }
 
 // Concrete AnimalFactory classes
-class CatFactory implements AnimalFactory {
-    @Override
-    public Animal getAnimal() {
+class CatFactory extends AnimalFactory {
+    getAnimal() {
         return new Cat();
     }
 }
 
-class DogFactory implements AnimalFactory {
-    @Override
-    public Animal getAnimal() {
+class DogFactory extends AnimalFactory {
+    getAnimal() {
         return new Dog();
     }
 }
 
 // Client code
-public class FactoryMethodAnimal {
-    public static void main(String[] args) {
-        AnimalFactory dogFactory = new DogFactory();
-        dogFactory.getAnimal().voice();
+const dogFactory = new DogFactory();
+dogFactory.getAnimal().voice();
 
-        AnimalFactory catFactory = new CatFactory();
-        catFactory.getAnimal().voice();
+const catFactory = new CatFactory();
+catFactory.getAnimal().voice();
 
-        // Future changes to include cow type of objects.
-        class Cow implements Animal {
-            @Override
-            public void voice() {
-                System.out.println("Gooaa Gooaa!!");
-            }
-        }
-
-        class CowFactory implements AnimalFactory {
-            @Override
-            public Animal getAnimal() {
-                return new Cow();
-            }
-        }
-
-        // Client code for Cow
-        AnimalFactory cowFactory = new CowFactory();
-        cowFactory.getAnimal().voice();
+// Future changes to include cow type of objects.
+class Cow extends Animal {
+    voice() {
+        console.log("Gooaa Gooaa!!");
     }
 }
+
+class CowFactory extends AnimalFactory {
+    getAnimal() {
+        return new Cow();
+    }
+}
+
+// Client code for Cow
+const cowFactory = new CowFactory();
+cowFactory.getAnimal().voice();
+
 /*
 Bhow Bhow!!
 Meow Meow!!

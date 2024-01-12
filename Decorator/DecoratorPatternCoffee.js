@@ -1,86 +1,82 @@
 // Coffee (Component)
-interface Coffee {
-    int getCost();
-    String getIngredients();
+class Coffee {
+    getCost() {
+        throw new Error("Abstract method: getCost");
+    }
+
+    getIngredients() {
+        throw new Error("Abstract method: getIngredients");
+    }
 }
 
 // SimpleCoffee (ConcreteComponent)
-class SimpleCoffee implements Coffee {
-    @Override
-    public int getCost() {
+class SimpleCoffee extends Coffee {
+    getCost() {
         return 10;
     }
 
-    @Override
-    public String getIngredients() {
+    getIngredients() {
         return "Coffee";
     }
 }
 
 // CoffeeDecorator (Decorator)
-abstract class CoffeeDecorator implements Coffee {
-    protected Coffee component;
-
-    public CoffeeDecorator(Coffee component) {
+class CoffeeDecorator extends Coffee {
+    constructor(component) {
+        super();
         this.component = component;
     }
 
-    @Override
-    public abstract int getCost();
+    getCost() {
+        throw new Error("Abstract method: getCost");
+    }
 
-    @Override
-    public abstract String getIngredients();
+    getIngredients() {
+        throw new Error("Abstract method: getIngredients");
+    }
 }
 
 // MilkDecorator (ConcreteDecorator)
 class MilkDecorator extends CoffeeDecorator {
-    public MilkDecorator(Coffee component) {
+    constructor(component) {
         super(component);
     }
 
-    @Override
-    public int getCost() {
-        return component.getCost() + 4;
+    getCost() {
+        return this.component.getCost() + 4;
     }
 
-    @Override
-    public String getIngredients() {
-        return component.getIngredients() + ", Milk";
+    getIngredients() {
+        return this.component.getIngredients() + ", Milk";
     }
 }
 
 // EspressoDecorator (ConcreteDecorator)
 class EspressoDecorator extends CoffeeDecorator {
-    public EspressoDecorator(Coffee component) {
+    constructor(component) {
         super(component);
     }
 
-    @Override
-    public int getCost() {
-        return component.getCost() + 5;
+    getCost() {
+        return this.component.getCost() + 5;
     }
 
-    @Override
-    public String getIngredients() {
-        return component.getIngredients() + ", Espresso";
+    getIngredients() {
+        return this.component.getIngredients() + ", Espresso";
     }
 }
 
 // Client code
-public class DecoratorPatternCoffee {
-    public static void main(String[] args) {
-        Coffee component = new SimpleCoffee();
-        Coffee decorator1 = new MilkDecorator(component);
-        Coffee decorator2 = new EspressoDecorator(decorator1);
+const component = new SimpleCoffee();
+const decorator1 = new MilkDecorator(component);
+const decorator2 = new EspressoDecorator(decorator1);
 
-        System.out.println("Coffee cost is :: " + decorator2.getCost());
-        System.out.println("Coffee ingredients are :: " + decorator2.getIngredients());
+console.log("Coffee cost is :: " + decorator2.getCost());
+console.log("Coffee ingredients are :: " + decorator2.getIngredients());
 
-        Coffee latte = new MilkDecorator(new MilkDecorator(new SimpleCoffee()));
-        System.out.println("Coffee cost is :: " + latte.getCost());
-        System.out.println("Coffee ingredients are :: " + latte.getIngredients());
-    }
-}
+const latte = new MilkDecorator(new MilkDecorator(new SimpleCoffee()));
+console.log("Coffee cost is :: " + latte.getCost());
+console.log("Coffee ingredients are :: " + latte.getIngredients());
 
 /*
 Coffee cost is :: 19

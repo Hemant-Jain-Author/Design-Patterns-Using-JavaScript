@@ -1,58 +1,50 @@
 class Model {
-    private String data;
-
-    public Model() {
+    constructor() {
         this.data = "Hello, World!";
     }
 
-    public void setData(String data) {
-        System.out.println("Model: Set data : " + data);
+    setData(data) {
+        console.log("Model: Set data : " + data);
         this.data = data;
     }
 
-    public String getData() {
-        System.out.println("Model: Get data: " + data);
-        return data;
+    getData() {
+        console.log("Model: Get data: " + this.data);
+        return this.data;
     }
 }
 
 class View {
-    public void update(String data) {
-        System.out.println("View: Updating the view with data: " + data);
+    update(data) {
+        console.log("View: Updating the view with data: " + data);
     }
 }
 
 class Presenter {
-    private Model model;
-    private View view;
-
-    public Presenter() {
+    constructor() {
         this.model = new Model();
         this.view = new View();
     }
 
-    public void setData(String data) {
-        System.out.println("Presenter: Receive data from client.");
-        model.setData(data);
+    setData(data) {
+        console.log("Presenter: Receive data from client.");
+        this.model.setData(data);
     }
 
-    public void updateView() {
-        System.out.println("Presenter: Receive update view from client.");
-        String data = model.getData();
-        view.update(data);
-    }
-}
-
-public class MVPPattern {
-    public static void main(String[] args) {
-        System.out.println("Client: Pass trigger to Presenter.");
-        Presenter presenter = new Presenter();
-        presenter.updateView();
-
-        presenter.setData("Hello, Students!");
-        presenter.updateView();
+    updateView() {
+        console.log("Presenter: Receive update view from client.");
+        const data = this.model.getData();
+        this.view.update(data);
     }
 }
+
+// Main class (Client code)
+console.log("Client: Pass trigger to Presenter.");
+const presenter = new Presenter();
+presenter.updateView();
+
+presenter.setData("Hello, Students!");
+presenter.updateView();
 
 /*
 Client: Pass trigger to Presenter.

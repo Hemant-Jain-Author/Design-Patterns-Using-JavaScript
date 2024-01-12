@@ -1,68 +1,52 @@
-import java.util.HashMap;
-import java.util.Map;
-
 // Flyweight interface
-interface Flyweight {
-    void operation(String extrinsicState);
+class Flyweight {
+    operation(extrinsicState) {
+        // Common operation logic
+    }
 }
 
-// Concrete Flyweight class
-class ConcreteFlyweight implements Flyweight {
-    private String intrinsicState;
-
-    public ConcreteFlyweight(String intrinsicState) {
+// Concrete Flyweight
+class ConcreteFlyweight extends Flyweight {
+    constructor(intrinsicState) {
+        super();
         this.intrinsicState = intrinsicState;
     }
 
-    @Override
-    public void operation(String extrinsicState) {
-        System.out.println("Operation inside concrete flyweight: " + this);
+    operation(extrinsicState) {
+        console.log(`Operation with intrinsic state: ${this.intrinsicState}, extrinsic state: ${extrinsicState}`);
     }
 }
 
-// FlyweightFactory class
+// Flyweight Factory
 class FlyweightFactory {
-    private Map<String, Flyweight> flyweights = new HashMap<>();
+    constructor() {
+        this.flyweights = {};
+    }
 
-    public Flyweight getFlyweight(String intrinsicState) {
-        if (!flyweights.containsKey(intrinsicState)) {
-            flyweights.put(intrinsicState, new ConcreteFlyweight(intrinsicState));
+    getFlyweight(intrinsicState) {
+        if (!this.flyweights[intrinsicState]) {
+            this.flyweights[intrinsicState] = new ConcreteFlyweight(intrinsicState);
+            console.log(`Creating a new flyweight with key: ${intrinsicState}`);
+
+        } else {
+            console.log(`Reusing existing flyweight with key: ${intrinsicState}`);
         }
-        return flyweights.get(intrinsicState);
+        return this.flyweights[intrinsicState];
     }
 }
 
-// ClientClass
-class ClientClass {
-    public Flyweight flyweight;
-    public String extrinsicState;
+// Example usage
+const factory = new FlyweightFactory();
 
-    public ClientClass(FlyweightFactory factory, String intrinsicState, String extrinsicState) {
-        this.flyweight = factory.getFlyweight(intrinsicState);
-        this.extrinsicState = extrinsicState;
-    }
+const flyweight1 = factory.getFlyweight("sharedState");
+flyweight1.operation("clientState1");
 
-    public void operation() {
-        System.out.println("Operation inside context: " + this);
-        flyweight.operation(extrinsicState);
-    }
-}
+const flyweight2 = factory.getFlyweight("sharedState");
+flyweight2.operation("clientState2");
 
-// Main class
-public class Flyweight2 {
-    public static void main(String[] args) {
-        FlyweightFactory factory = new FlyweightFactory();
-        ClientClass c = new ClientClass(factory, "common", "separate1");
-        c.operation();
-        ClientClass c2 = new ClientClass(factory, "common", "separate2");
-        c2.operation();
-    }
-}
 /*
-Operation inside context: ClientClass@8bcc55f
-Operation inside concrete flyweight: ConcreteFlyweight@58644d46
-Operation inside context: ClientClass@14dad5dc
-Operation inside concrete flyweight: ConcreteFlyweight@58644d46
-
+Creating a new flyweight with key: sharedState
+Operation with intrinsic state: sharedState, extrinsic state: clientState1
+Reusing existing flyweight with key: sharedState
+Operation with intrinsic state: sharedState, extrinsic state: clientState2
 */
-

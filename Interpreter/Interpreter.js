@@ -1,92 +1,96 @@
-import java.util.HashMap;
-import java.util.Map;
-
 // Expression interface
-interface Expression {
-    int interpret();
+class Expression {
+    interpret(context) { }
 }
 
 // Number class implementing Expression
-class Number implements Expression {
-    private int value;
-
-    public Number(int value) {
+class NumberExpression extends Expression {
+    constructor(value) {
+        super();
         this.value = value;
     }
 
-    @Override
-    public int interpret() {
-        return value;
+    interpret(context) {
+        return this.value;
     }
 }
 
 // Plus class implementing Expression
-class Plus implements Expression {
-    private Expression left;
-    private Expression right;
-
-    public Plus(Expression left, Expression right) {
+class PlusExpression extends Expression {
+    constructor(left, right) {
+        super();
         this.left = left;
         this.right = right;
     }
 
-    @Override
-    public int interpret() {
-        return left.interpret() + right.interpret();
+    interpret(context) {
+        return this.left.interpret(context) + this.right.interpret(context);
     }
 }
 
 // Minus class implementing Expression
-class Minus implements Expression {
-    private Expression left;
-    private Expression right;
-
-    public Minus(Expression left, Expression right) {
+class MinusExpression extends Expression {
+    constructor(left, right) {
+        super();
         this.left = left;
         this.right = right;
     }
 
-    @Override
-    public int interpret() {
-        return left.interpret() - right.interpret();
+    interpret(context) {
+        return this.left.interpret(context) - this.right.interpret(context);
     }
 }
 
 // Context class
 class Context {
-    private Map<String, Integer> variables = new HashMap<>();
-
-    public int getValue(String name) {
-        return variables.getOrDefault(name, 0);
+    constructor() {
+        this.variables = new Map();
     }
 
-    public void setValue(String name, int value) {
-        variables.put(name, value);
+    getValue(name) {
+        return this.variables.get(name) || 0;
+    }
+
+    setValue(name, value) {
+        this.variables.set(name, value);
     }
 }
 
-public class Interpreter {
-    public static Expression parseExpression(String expression, Context context) {
-        if (expression.matches("\\d+")) {
-            return new Number(Integer.parseInt(expression));
-        } else if (expression.contains("+")) {
-            String[] parts = expression.split(" \\+ ", 2);
-            return new Plus(parseExpression(parts[0], context), parseExpression(parts[1], context));
-        } else if (expression.contains("-")) {
-            String[] parts = expression.split(" - ", 2);
-            return new Minus(parseExpression(parts[0], context), parseExpression(parts[1], context));
+// Interpreter class
+class Interpreter {
+    static parseExpression(expression, context) {
+        if (/^\d+$/.test(expression)) {
+            return new NumberExpression(parseInt(expression));
+        } else if (expression.includes("+")) {
+            const index = expression.indexOf(' + ');
+            const left = expression.substring(0, index);
+            const right = expression.substring(index + 3);
+            return new PlusExpression(
+                Interpreter.parseExpression(left, context),
+                Interpreter.parseExpression(right, context)
+            );
+        } else if (expression.includes("-")) {
+            const index = expression.indexOf(' - ');
+            const left = expression.substring(0, index);
+            const right = expression.substring(index + 3);
+            return new MinusExpression(
+                Interpreter.parseExpression(left, context),
+                Interpreter.parseExpression(right, context)
+            );
         } else {
-            return new Number(context.getValue(expression));
+            return new NumberExpression(context.getValue(expression));
         }
     }
-
-    public static void main(String[] args) {
-        Context context = new Context();
-        context.setValue("x", 10);
-        context.setValue("y", 5);
-
-        Expression expression = parseExpression("x + y + 2", context);
-        int result = expression.interpret();
-        System.out.println(result);
-    }
 }
+
+const context = new Context();
+context.setValue("x", 10);
+context.setValue("y", 5);
+
+const expression = Interpreter.parseExpression("x + y + 2", context);
+const result = expression.interpret(context);
+console.log(result);
+
+/*
+17
+*/

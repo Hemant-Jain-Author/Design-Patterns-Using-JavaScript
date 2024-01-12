@@ -1,91 +1,68 @@
-import java.util.HashMap;
-import java.util.Map;
-
-abstract class Shape implements Cloneable {
-    private String color;
-
-    public Shape() {
-        this.color = "";
+class Shape {
+    constructor() {
+        this.color = '';
     }
 
-    @Override
-    public abstract String toString();
-
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    toString() {
+        throw new Error('toString method must be implemented');
     }
 
-    public abstract Shape cloneShape();
+    cloneShape() {
+        throw new Error('cloneShape method must be implemented');
+    }
+
+    clone() {
+        return Object.assign(Object.create(Object.getPrototypeOf(this)), this);
+    }
 }
 
 class Rectangle extends Shape {
-    @Override
-    public String toString() {
-        return "Rectangle.";
+    toString() {
+        return 'Rectangle.';
     }
 
-    @Override
-    public Shape cloneShape() {
-        try {
-            return (Shape) this.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-            return null;
-        }
+    cloneShape() {
+        return this.clone();
     }
 }
 
 class Circle extends Shape {
-    @Override
-    public String toString() {
-        return "Circle.";
+    toString() {
+        return 'Circle.';
     }
 
-    @Override
-    public Shape cloneShape() {
-        try {
-            return (Shape) this.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-            return null;
-        }
+    cloneShape() {
+        return this.clone();
     }
 }
 
 class ShapeRegistry {
-    private static final Map<String, Shape> shapes = new HashMap<>();
+    static addShape(key, value) {
+        if(!ShapeRegistry.shapes)
+        ShapeRegistry.shapes = new Map();
 
-    static {
-        load();
+        ShapeRegistry.shapes.set(key, value);
     }
 
-    static void addShape(String key, Shape value) {
-        shapes.put(key, value);
-    }
-
-    static Shape getShape(String key) {
-        if (shapes.containsKey(key)) {
-            return shapes.get(key).cloneShape();
+    static getShape(key) {
+        if (ShapeRegistry.shapes.has(key)) {
+            return ShapeRegistry.shapes.get(key).cloneShape();
         }
         return null;
     }
 
-    static void load() {
-        addShape("circle", new Circle());
-        addShape("rectangle", new Rectangle());
+    static load() {
+        ShapeRegistry.addShape('circle', new Circle());
+        ShapeRegistry.addShape('rectangle', new Rectangle());
     }
 }
 
-public class PrototypePatternShape {
-    public static void main(String[] args) {
-        ShapeRegistry.load();
-        Shape c = ShapeRegistry.getShape("circle");
-        Shape r = ShapeRegistry.getShape("rectangle");
-        System.out.println(c + " " + r);
-    }
-}
+// Client code
+ShapeRegistry.load();
+const c = ShapeRegistry.getShape('circle');
+const r = ShapeRegistry.getShape('rectangle');
+console.log(c.toString(), r.toString());
 
 /*
- Circle. Rectangle.
- */
+Circle. Rectangle.
+*/

@@ -1,74 +1,66 @@
 // Abstraction interface
-interface Shape {
-    void draw();
+class Shape {
+    constructor(color) {
+        this.imp = color;
+    }
+
+    draw() {
+        console.log(`Drawing ${this.constructor.name} with color ${this.imp.fill()}`);
+    }
 }
 
 // Implementor interface
-interface Color {
-    String fill();
+class Color {
+    fill() {
+        throw new Error("Abstract method: fill");
+    }
 }
 
 // Rectangle class
-class Rectangle implements Shape {
-    private Color imp;
-
-    public Rectangle(Color imp) {
-        this.imp = imp;
-    }
-
-    @Override
-    public void draw() {
-        System.out.println("Drawing Rectangle with color " + imp.fill());
+class Rectangle extends Shape {
+    constructor(color) {
+        super(color);
     }
 }
 
 // Circle class
-class Circle implements Shape {
-    private Color imp;
-
-    public Circle(Color imp) {
-        this.imp = imp;
-    }
-
-    @Override
-    public void draw() {
-        System.out.println("Drawing Circle with color " + imp.fill());
+class Circle extends Shape {
+    constructor(color) {
+        super(color);
     }
 }
 
 // Red class
-class Red implements Color {
-    @Override
-    public String fill() {
+class Red extends Color {
+    fill() {
         return "Red";
     }
 }
 
 // Green class
-class Green implements Color {
-    @Override
-    public String fill() {
+class Green extends Color {
+    fill() {
         return "Green";
     }
 }
 
 // Blue class
-class Blue implements Color {
-    @Override
-    public String fill() {
+class Blue extends Color {
+    fill() {
         return "Blue";
     }
 }
 
 // Client code
-public class BridgePatternShape {
-    public static void main(String[] args) {
-        Color c1 = new Red();
-        Shape abstraction = new Circle(c1);
-        abstraction.draw();
+const c1 = new Red();
+const abstraction = new Circle(c1);
+abstraction.draw();
 
-        Color c2 = new Green();
-        Shape abstraction2 = new Rectangle(c2);
-        abstraction2.draw();
-    }
-}
+const c2 = new Green();
+const abstraction2 = new Rectangle(c2);
+abstraction2.draw();
+
+/*
+Drawing Circle with color Red
+Drawing Rectangle with color Green
+*/

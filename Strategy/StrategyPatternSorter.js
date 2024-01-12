@@ -1,20 +1,21 @@
-import java.util.Arrays;
-
-interface Sorting {
-    void sort(int[] numbers);
+// Define Sorting interface
+class Sorting {
+    sort(numbers) {
+        throw new Error("sort method must be implemented");
+    }
 }
 
-class BubbleSort implements Sorting {
-    @Override
-    public void sort(int[] numbers) {
+// Define BubbleSort class implementing Sorting
+class BubbleSort extends Sorting {
+    sort(numbers) {
         // Bubble Sort Algorithm
-        System.out.println("Bubble Sort Algorithm executed.");
-        int size = numbers.length;
-        for (int i = 0; i < size - 1; i++) {
-            for (int j = 0; j < size - i - 1; j++) {
+        console.log("Bubble Sort Algorithm executed.");
+        const size = numbers.length;
+        for (let i = 0; i < size - 1; i++) {
+            for (let j = 0; j < size - i - 1; j++) {
                 if (numbers[j] > numbers[j + 1]) {
                     // Swapping
-                    int temp = numbers[j];
+                    const temp = numbers[j];
                     numbers[j] = numbers[j + 1];
                     numbers[j + 1] = temp;
                 }
@@ -23,52 +24,55 @@ class BubbleSort implements Sorting {
     }
 }
 
-class SelectionSort implements Sorting {
-    @Override
-    public void sort(int[] numbers) {
+// Define SelectionSort class implementing Sorting
+class SelectionSort extends Sorting {
+    sort(numbers) {
         // Selection Sort Algorithm
-        System.out.println("Selection Sort Algorithm executed.");
-        int size = numbers.length;
-        for (int i = 0; i < size - 1; i++) {
-            int maxIndex = 0;
-            for (int j = 1; j < size - i; j++) {
+        console.log("Selection Sort Algorithm executed.");
+        const size = numbers.length;
+        for (let i = 0; i < size - 1; i++) {
+            let maxIndex = 0;
+            for (let j = 1; j < size - i; j++) {
                 if (numbers[j] > numbers[maxIndex]) {
                     maxIndex = j;
                 }
             }
-            int temp = numbers[size - 1 - i];
+            const temp = numbers[size - 1 - i];
             numbers[size - 1 - i] = numbers[maxIndex];
             numbers[maxIndex] = temp;
         }
     }
 }
 
+// Define StrategyClass
 class StrategyClass {
-    private Sorting sorter;
-
-    StrategyClass(Sorting algo) {
+    constructor(algo) {
         this.sorter = algo;
     }
 
-    void setSorter(Sorting algo) {
+    setSorter(algo) {
         this.sorter = algo;
     }
 
-    void sort(int[] a) {
+    sort(a) {
         this.sorter.sort(a);
     }
 }
 
-public class StrategyPatternSorter {
-    public static void main(String[] args) {
-        int[] a = {4, 5, 3, 2, 6, 7, 1, 8, 9, 10};
-        StrategyClass s = new StrategyClass(new BubbleSort());
-        s.sort(a);
-        System.out.println(Arrays.toString(a));
+// Client code
+const a = [4, 5, 3, 2, 6, 7, 1, 8, 9, 10];
+const s = new StrategyClass(new BubbleSort());
+s.sort(a);
+console.log(a);
 
-        int[] b = {4, 5, 3, 2, 6, 7, 1, 8, 9, 10};
-        s.setSorter(new SelectionSort());
-        s.sort(b);
-        System.out.println(Arrays.toString(b));
-    }
-}
+const b = [4, 5, 3, 2, 6, 7, 1, 8, 9, 10];
+s.setSorter(new SelectionSort());
+s.sort(b);
+console.log(b);
+
+/*
+Bubble Sort Algorithm executed.
+[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+Selection Sort Algorithm executed.
+[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+*/

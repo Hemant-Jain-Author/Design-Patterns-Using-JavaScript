@@ -1,67 +1,61 @@
-// Component
-interface Component {
-    void operation();
-}
-
-// ConcreteComponent
-class ConcreteComponent implements Component {
-    @Override
-    public void operation() {
-        System.out.println("ConcreteComponent operation.");
+// Component interface
+class Component {
+    operation() {
+        throw new Error("Abstract method: operation");
     }
 }
 
-// Decorator
-abstract class Decorator implements Component {
-    private Component component;
+// ConcreteComponent class
+class ConcreteComponent extends Component {
+    operation() {
+        console.log("ConcreteComponent operation.");
+    }
+}
 
-    public Decorator(Component component) {
+// Decorator class
+class Decorator extends Component {
+    constructor(component) {
+        super();
         this.component = component;
     }
 
-    @Override
-    public void operation() {
-        component.operation();
+    operation() {
+        this.component.operation();
     }
 }
 
-// ConcreteDecorator1
+// ConcreteDecorator1 class
 class ConcreteDecorator1 extends Decorator {
-    public ConcreteDecorator1(Component component) {
+    constructor(component) {
         super(component);
     }
 
-    @Override
-    public void operation() {
-        System.out.println("ConcreteDecorator1 operation start.");
+    operation() {
+        console.log("ConcreteDecorator1 operation start.");
         super.operation();
-        System.out.println("ConcreteDecorator1 operation end.");
+        console.log("ConcreteDecorator1 operation end.");
     }
 }
 
-// ConcreteDecorator2
+// ConcreteDecorator2 class
 class ConcreteDecorator2 extends Decorator {
-    public ConcreteDecorator2(Component component) {
+    constructor(component) {
         super(component);
     }
 
-    @Override
-    public void operation() {
-        System.out.println("ConcreteDecorator2 operation start.");
+    operation() {
+        console.log("ConcreteDecorator2 operation start.");
         super.operation();
-        System.out.println("ConcreteDecorator2 operation end.");
+        console.log("ConcreteDecorator2 operation end.");
     }
 }
 
 // Client code
-public class DecoratorPattern {
-    public static void main(String[] args) {
-        Component component = new ConcreteComponent();
-        Decorator decorator1 = new ConcreteDecorator1(component);
-        Decorator decorator2 = new ConcreteDecorator2(decorator1);
-        decorator2.operation();
-    }
-}
+const component = new ConcreteComponent();
+const decorator1 = new ConcreteDecorator1(component);
+const decorator2 = new ConcreteDecorator2(decorator1);
+decorator2.operation();
+
 
 /*
 ConcreteDecorator2 operation start.
@@ -69,4 +63,4 @@ ConcreteDecorator1 operation start.
 ConcreteComponent operation.
 ConcreteDecorator1 operation end.
 ConcreteDecorator2 operation end.
- */
+*/

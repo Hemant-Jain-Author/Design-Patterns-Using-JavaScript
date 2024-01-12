@@ -1,74 +1,77 @@
 class Product {
-    private String partA;
-    private String partB;
-
-    public Product(String A, String B) {
+    constructor(A, B) {
         this.partA = A;
         this.partB = B;
     }
 
-    @Override
-    public String toString() {
-        return "Product : (" + partA + ", " + partB + ")";
+    toString() {
+        return `Product : (${this.partA}, ${this.partB})`;
     }
 }
 
-abstract class Builder {
-    public abstract Builder setPartA(String A);
-    public abstract Builder setPartB(String B);
-    public abstract Product getProduct();
+class Builder {
+    setPartA(A) {
+        throw new Error("Abstract method: setPartA");
+    }
+
+    setPartB(B) {
+        throw new Error("Abstract method: setPartB");
+    }
+
+    getProduct() {
+        throw new Error("Abstract method: getProduct");
+    }
 }
 
 class ConcreteBuilder extends Builder {
-    private String partA;
-    private String partB;
+    constructor() {
+        super();
+        this.partA = "";
+        this.partB = "";
+    }
 
-    @Override
-    public ConcreteBuilder setPartA(String A) {
+    setPartA(A) {
         this.partA = A;
         return this; // Returning self helps in chaining calls.
     }
 
-    @Override
-    public ConcreteBuilder setPartB(String B) {
+    setPartB(B) {
         this.partB = B;
         return this;
     }
 
-    @Override
-    public Product getProduct() {
-        return new Product(partA, partB);
+    getProduct() {
+        return new Product(this.partA, this.partB);
     }
 }
 
 class Director {
-    private Builder builder;
-
-    public Director(Builder builder) {
+    constructor(builder) {
         this.builder = builder;
     }
 
-    public Product construct() {
-        return builder.setPartA("A1").setPartB("B1").getProduct(); // Chaining calls
+    construct() {
+        return this.builder.setPartA("A1").setPartB("B1").getProduct(); // Chaining calls
     }
 
-    public Product construct2() {
-        builder.setPartA("A2");
-        builder.setPartB("B2");
-        return builder.getProduct();
+    construct2() {
+        this.builder.setPartA("A2");
+        this.builder.setPartB("B2");
+        return this.builder.getProduct();
     }
 }
 
 // Client code
-public class BuilderPatternBuilderRetainstate {
-    public static void main(String[] args) {
-        ConcreteBuilder builder = new ConcreteBuilder();
-        Director director = new Director(builder);
+const builder = new ConcreteBuilder();
+const director = new Director(builder);
 
-        Product product = director.construct();
-        System.out.println(product);
+const product = director.construct();
+console.log(product.toString());
 
-        Product product2 = director.construct2();
-        System.out.println(product2);
-    }
-}
+const product2 = director.construct2();
+console.log(product2.toString());
+
+/*
+Product : (A1, B1)
+Product : (A2, B2)
+*/

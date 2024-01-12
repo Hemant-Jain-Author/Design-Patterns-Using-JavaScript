@@ -1,59 +1,63 @@
-interface BulbState {
-    void flip(BulbControl bc);
-    String toString();
+// Define BulbState interface
+class BulbState {
+    flip(bc) {
+        throw new Error("flip method must be implemented");
+    }
+
+    toString() {
+        throw new Error("toString method must be implemented");
+    }
 }
 
+// Define BulbControl class
 class BulbControl {
-    private BulbState current;
-
-    BulbControl() {
+    constructor() {
         this.current = new Off();
     }
 
-    void setState(BulbState state) {
+    setState(state) {
         this.current = state;
     }
 
-    void flip() {
+    flip() {
         this.current.flip(this);
     }
 
-    String toStringState() {
+    toStringState() {
         return this.current.toString();
     }
 }
 
-class On implements BulbState {
-    @Override
-    public void flip(BulbControl bc) {
+// Define On class implementing BulbState
+class On extends BulbState {
+    flip(bc) {
         bc.setState(new Off());
     }
 
-    @Override
-    public String toString() {
+    toString() {
         return "On";
     }
 }
 
-class Off implements BulbState {
-    @Override
-    public void flip(BulbControl bc) {
+// Define Off class implementing BulbState
+class Off extends BulbState {
+    flip(bc) {
         bc.setState(new On());
     }
 
-    @Override
-    public String toString() {
+    toString() {
         return "Off";
     }
 }
 
-// Client code.
-public class StatePattern {
-    public static void main(String[] args) {
-        BulbControl c = new BulbControl();
-        c.flip();
-        System.out.println(c.toStringState());
-        c.flip();
-        System.out.println(c.toStringState());
-    }
-}
+// Client code
+const c = new BulbControl();
+c.flip();
+console.log(c.toStringState()); // Output: On
+c.flip();
+console.log(c.toStringState()); // Output: Off
+
+/*
+On
+Off
+*/

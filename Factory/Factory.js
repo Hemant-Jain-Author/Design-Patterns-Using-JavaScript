@@ -1,57 +1,53 @@
 // Product interface
-interface Animal {
-    void speak();
-}
-
-// Concrete Product classes
-class Dog implements Animal {
-    @Override
-    public void speak() {
-        System.out.println("Woof!");
+class Animal {
+    speak() {
+        throw new Error("Abstract method 'speak' must be implemented.");
     }
 }
 
-class Cat implements Animal {
-    @Override
-    public void speak() {
-        System.out.println("Meow!");
+// Concrete Product classes
+class Dog extends Animal {
+    speak() {
+        console.log("Woof!");
+    }
+}
+
+class Cat extends Animal {
+    speak() {
+        console.log("Meow!");
     }
 }
 
 // Creator abstract class
-abstract class AnimalFactory {
-    public abstract Animal createAnimal();
+class AnimalFactory {
+    createAnimal() {
+        throw new Error("Abstract method 'createAnimal' must be implemented.");
+    }
 }
 
 // Concrete Creator classes
 class DogFactory extends AnimalFactory {
-    @Override
-    public Animal createAnimal() {
+    createAnimal() {
         return new Dog();
     }
 }
 
 class CatFactory extends AnimalFactory {
-    @Override
-    public Animal createAnimal() {
+    createAnimal() {
         return new Cat();
     }
 }
 
 // Client code
-public class Factory {
-    public static void main(String[] args) {
-        AnimalFactory dogFactory = new DogFactory();
-        Animal dog = dogFactory.createAnimal();
-        dog.speak();
+const dogFactory = new DogFactory();
+const dog = dogFactory.createAnimal();
+dog.speak();
 
-        AnimalFactory catFactory = new CatFactory();
-        Animal cat = catFactory.createAnimal();
-        cat.speak();
-    }
-}
+const catFactory = new CatFactory();
+const cat = catFactory.createAnimal();
+cat.speak();
 
 /*
 Woof!
 Meow!
- */
+*/

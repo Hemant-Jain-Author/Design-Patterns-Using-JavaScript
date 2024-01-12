@@ -1,82 +1,79 @@
-import java.util.HashSet;
-import java.util.Set;
+// IShape interface
+class IShape {
+    move(x, y) {
+        throw new Error("Abstract method: move");
+    }
 
-// IShape
-interface IShape {
-    void move(int x, int y);
-    String draw();
+    draw() {
+        throw new Error("Abstract method: draw");
+    }
 }
 
-// Rectangle
-class Rectangle implements IShape {
-    private int x, y, length, breadth;
-
-    public Rectangle(int x, int y, int length, int breadth) {
+// Rectangle class
+class Rectangle extends IShape {
+    constructor(x, y, length, breadth) {
+        super();
         this.x = x;
         this.y = y;
         this.length = length;
         this.breadth = breadth;
     }
 
-    @Override
-    public void move(int x, int y) {
+    move(x, y) {
         this.x += x;
         this.y += y;
     }
 
-    @Override
-    public String draw() {
-        System.out.println("Draw a Rectangle at (" + x + ", " + y + ").");
+    draw() {
+        console.log(`Draw a Rectangle at (${this.x}, ${this.y}).`);
         return "<Rectangle>";
     }
 }
 
-// Circle
-class Circle implements IShape {
-    private int x, y, radius;
-
-    public Circle(int x, int y, int radius) {
+// Circle class
+class Circle extends IShape {
+    constructor(x, y, radius) {
+        super();
         this.x = x;
         this.y = y;
         this.radius = radius;
     }
 
-    @Override
-    public void move(int x, int y) {
+    move(x, y) {
         this.x += x;
         this.y += y;
     }
 
-    @Override
-    public String draw() {
-        System.out.println("Draw a Circle of radius " + radius + " at (" + x + ", " + y + ").");
+    draw() {
+        console.log(`Draw a Circle of radius ${this.radius} at (${this.x}, ${this.y}).`);
         return "<Circle>";
     }
 }
 
-// CompoundShape
-class CompoundShape implements IShape {
-    private Set<IShape> children = new HashSet<>();
-
-    public void add(IShape child) {
-        children.add(child);
+// CompoundShape class
+class CompoundShape extends IShape {
+    constructor() {
+        super();
+        this.children = new Set();
     }
 
-    public void remove(IShape child) {
-        children.remove(child);
+    add(child) {
+        this.children.add(child);
     }
 
-    @Override
-    public void move(int x, int y) {
-        for (IShape child : children) {
+    remove(child) {
+        this.children.delete(child);
+    }
+
+    move(x, y) {
+        for (const child of this.children) {
             child.move(x, y);
         }
     }
 
-    @Override
-    public String draw() {
-        String st = "Shapes(";
-        for (IShape child : children) {
+    draw() {
+        let st = "Shapes(";
+        for (const child of this.children) {
             st += child.draw();
         }
         st += ")";
@@ -85,26 +82,21 @@ class CompoundShape implements IShape {
 }
 
 // Client code
-public class CompositePatternDraw {
-    public static void main(String[] args) {
-        CompoundShape all = new CompoundShape();
-        all.add(new Rectangle(1, 2, 1, 2));
-        all.add(new Circle(5, 3, 10));
+const all = new CompoundShape();
+all.add(new Rectangle(1, 2, 1, 2));
+all.add(new Circle(5, 3, 10));
 
-        CompoundShape group = new CompoundShape();
-        group.add(new Rectangle(5, 7, 1, 2));
-        group.add(new Circle(2, 1, 2));
+const group = new CompoundShape();
+group.add(new Rectangle(5, 7, 1, 2));
+group.add(new Circle(2, 1, 2));
 
-        all.add(group);
-        System.out.println(all.draw());
-    }
-}
+all.add(group);
+console.log(all.draw());
 
 /*
+Draw a Rectangle at (1, 2).
 Draw a Circle of radius 10 at (5, 3).
 Draw a Rectangle at (5, 7).
 Draw a Circle of radius 2 at (2, 1).
-Draw a Rectangle at (1, 2).
-Shapes(<Circle>Shapes(<Rectangle><Circle>)<Rectangle>)
-
- */
+Shapes(<Rectangle><Circle>Shapes(<Rectangle><Circle>))
+*/

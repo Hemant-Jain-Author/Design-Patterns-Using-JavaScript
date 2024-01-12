@@ -1,41 +1,39 @@
 // A class representing a house
 class House {
-    private String wall;
-    private String roof;
-
-    public House(String wall, String roof) {
+    constructor(wall, roof) {
         this.wall = wall;
         this.roof = roof;
     }
 
-    public void setWall(String wall){
+    setWall(wall) {
         this.wall = wall;
     }
 
-    public void setRoof(String roof){
+    setRoof(roof) {
         this.roof = roof;
     }
 
-    @Override
-    public String toString() {
-        return String.format("House of %s and %s", wall, roof);
+    toString() {
+        return `House of ${this.wall} and ${this.roof}`;
     }
 }
 
 // An abstract builder class that specifies the interface for building a house
-abstract class HouseBuilder {
-    protected House house;
-
-    public HouseBuilder() {
+class HouseBuilder {
+    constructor() {
         this.house = new House("", "");
     }
 
-    public abstract HouseBuilder setWall();
+    setWall() {
+        throw new Error("Abstract method: setWall");
+    }
 
-    public abstract HouseBuilder setRoof();
+    setRoof() {
+        throw new Error("Abstract method: setRoof");
+    }
 
-    public House getHouse() {
-        House temp = this.house;
+    getHouse() {
+        const temp = this.house;
         this.house = new House("", ""); // assign new house.
         return temp;
     }
@@ -43,14 +41,12 @@ abstract class HouseBuilder {
 
 // A builder class that builds a wooden house
 class WoodenHouseBuilder extends HouseBuilder {
-    @Override
-    public HouseBuilder setWall() {
+    setWall() {
         this.house.setWall("Wooden Wall");
         return this;
     }
 
-    @Override
-    public HouseBuilder setRoof() {
+    setRoof() {
         this.house.setRoof("Wooden Roof");
         return this;
     }
@@ -58,14 +54,12 @@ class WoodenHouseBuilder extends HouseBuilder {
 
 // A builder class that builds a concrete house
 class ConcreteHouseBuilder extends HouseBuilder {
-    @Override
-    public HouseBuilder setWall() {
+    setWall() {
         this.house.setWall("Concrete Wall");
         return this;
     }
 
-    @Override
-    public HouseBuilder setRoof() {
+    setRoof() {
         this.house.setRoof("Concrete Roof");
         return this;
     }
@@ -73,40 +67,28 @@ class ConcreteHouseBuilder extends HouseBuilder {
 
 // A class that directs the building of a house
 class HouseDirector {
-    private HouseBuilder builder;
-
-    public HouseDirector(HouseBuilder builder) {
+    constructor(builder) {
         this.builder = builder;
     }
 
-    public House construct() {
+    construct() {
         return this.builder.setWall().setRoof().getHouse();
     }
 }
 
 // Client code
-public class BuilderPatternHouse {
-    public static void main(String[] args) {
-        HouseBuilder builder = new ConcreteHouseBuilder();
-        HouseDirector director = new HouseDirector(builder);
-        House house = director.construct();
-        System.out.println(house);
+const builder = new ConcreteHouseBuilder();
+const director = new HouseDirector(builder);
+const house = director.construct();
+console.log(house.toString());
 
-        // Building a wooden house using a WoodenHouseBuilder object
-        builder = new WoodenHouseBuilder();
-        director = new HouseDirector(builder);
-        House house2 = director.construct();
-        System.out.println(house2);
-
-        // Displaying both houses
-        System.out.println(house);
-        System.out.println(house2);
-    }
-}
+// Building a wooden house using a WoodenHouseBuilder object
+const builder2 = new WoodenHouseBuilder();
+const director2 = new HouseDirector(builder2);
+const house2 = director2.construct();
+console.log(house2.toString());
 
 /*
 House of Concrete Wall and Concrete Roof
 House of Wooden Wall and Wooden Roof
-House of Concrete Wall and Concrete Roof
-House of Wooden Wall and Wooden Roof
- */
+*/

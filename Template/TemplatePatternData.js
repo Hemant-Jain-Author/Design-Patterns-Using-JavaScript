@@ -1,52 +1,60 @@
-abstract class AddDataTemplate {
-    final void addData() {
-        open();
-        add();
-        close();
+// Define AddDataTemplate
+class AddDataTemplate {
+    addData() {
+        this.open();
+        this.add();
+        this.close();
     }
 
-    abstract void open();
-    abstract void add();
-    abstract void close();
+    open() {
+        throw new Error("open method must be implemented");
+    }
+
+    add() {
+        throw new Error("add method must be implemented");
+    }
+
+    close() {
+        throw new Error("close method must be implemented");
+    }
 }
 
+// Define AddDataToFile extending AddDataTemplate
 class AddDataToFile extends AddDataTemplate {
-    @Override
-    void open() {
-        System.out.println("Open file.");
+    open() {
+        console.log("Open file.");
     }
 
-    @Override
-    void add() {
-        System.out.println("Add data to file.");
+    add() {
+        console.log("Add data to file.");
     }
 
-    @Override
-    void close() {
-        System.out.println("Close file");
+    close() {
+        console.log("Close file");
     }
 }
 
+// Define AddDataToDB extending AddDataTemplate
 class AddDataToDB extends AddDataTemplate {
-    @Override
-    void open() {
-        System.out.println("Open Database.");
+    open() {
+        console.log("Open Database.");
     }
 
-    @Override
-    void add() {
-        System.out.println("Add data to Database.");
+    add() {
+        console.log("Add data to Database.");
     }
 
-    @Override
-    void close() {
-        System.out.println("Close Database.");
+    close() {
+        console.log("Close Database.");
     }
 }
 
-public class TemplatePatternData {
-    public static void main(String[] args) {
-        AddDataTemplate addDataToDB = new AddDataToDB();
-        addDataToDB.addData();
-    }
-}
+// Client code
+const addDataToDB = new AddDataToDB();
+addDataToDB.addData();
+
+/*
+Open Database.
+Add data to Database.
+Close Database.
+*/

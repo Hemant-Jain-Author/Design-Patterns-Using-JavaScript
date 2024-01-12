@@ -1,53 +1,63 @@
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-
 // Shape interface
-interface Shape {
-    void draw(int x1, int y1, int x2, int y2);
-}
-
-// Rectangle class implementing Shape
-class Rectangle implements Shape {
-    private String colour;
-
-    public Rectangle(String colour) {
-        this.colour = colour;
-    }
-
-    @Override
-    public void draw(int x1, int y1, int x2, int y2) {
-        System.out.printf("Draw rectangle colour: %s topleft: (%s,%s) rightBottom: (%s,%s)%n", 
-            this.colour, x1, y1, x2, y2);
+class Shape {
+    draw(x1, y1, x2, y2) {
+        //Common operation logic
     }
 }
 
-// RectangleFactory class
-class RectangleFactory {
-    private Map<String, Shape> shapes = new HashMap<>();
+// ColouredShape class implementing Shape
+class ColouredShape extends Shape {
+    constructor(color) {
+        super();
+        this.color = color;
+    }
 
-    public Shape getRectangle(String colour) {
-        if (!shapes.containsKey(colour)) {
-            shapes.put(colour, new Rectangle(colour));
+    draw(x1, y1, x2, y2) {
+        console.log(`Draw ColouredShape color: ${this.color}, topleft: (${x1},${y1}), rightBottom: (${x2},${y2})`);
+    }
+}
+
+// ColouredShapeFactory class
+class ColouredShapeFactory {
+    constructor() {
+        this.shapes = {};
+    }
+
+    getColouredShape(color) {
+        if (!this.shapes[color]) {
+            this.shapes[color] = new ColouredShape(color);
+            console.log("Creating a new ColouredShape with color: " + color);
+        } else {
+            console.log("Reusing existing ColouredShape with color: " + color);
         }
-        return shapes.get(colour);
+        return this.shapes[color];
     }
 
-    public int getCount() {
-        return shapes.size();
+    getCount() {
+        return Object.keys(this.shapes).length;
     }
 }
 
 // Client code
-public class FlyweightPatternRectangle {
-    public static void main(String[] args) {
-        RectangleFactory factory = new RectangleFactory();
-        Random random = new Random();
+const factory = new ColouredShapeFactory();
+const random = () => Math.floor(Math.random() * 100);
 
-        for (int i = 0; i < 100; i++) {
-            Shape rectangle = factory.getRectangle(Integer.toString(random.nextInt(1000)));
-            rectangle.draw(random.nextInt(100), random.nextInt(100), random.nextInt(100), random.nextInt(100));
-        }
-        System.out.println(factory.getCount());
-    }
+for (let i = 0; i < 100; i++) {
+    // Generate a random color for the ColouredShape
+    const randomColor = random().toString();
+
+    // Obtain a ColouredShape with the specified color
+    const ColouredShape = factory.getColouredShape(randomColor);
+
+    // Generate random coordinates for drawing the ColouredShape
+    const x1 = random();
+    const y1 = random();
+    const x2 = random();
+    const y2 = random();
+
+    // Draw the ColouredShape
+    ColouredShape.draw(x1, y1, x2, y2);
 }
+
+// Display the total number of unique ColouredShapes created
+console.log("Total unique ColouredShapes created: " + factory.getCount());

@@ -1,33 +1,33 @@
 // Desired Interface
-interface DesiredInterface {
-    void operation();
+class DesiredInterface {
+    operation() {
+        throw new Error("Abstract method: operation");
+    }
 }
 
 // Adapter class
-class Adapter implements DesiredInterface {
-    private Adaptee adaptee;
-
-    public Adapter() {
+class Adapter extends DesiredInterface {
+    constructor() {
+        super();
         this.adaptee = new Adaptee();
     }
 
-    @Override
-    public void operation() {
-        adaptee.someOperation();
+    operation() {
+        this.adaptee.someOperation();
     }
 }
 
 // Adaptee class
 class Adaptee {
-    public void someOperation() {
-        System.out.println("Adaptee someOperation() function called.");
+    someOperation() {
+        console.log("Adaptee someOperation() function called.");
     }
 }
 
 // Client Code
-public class AdapterPattern {
-    public static void main(String[] args) {
-        DesiredInterface adapter = new Adapter();
-        adapter.operation();
-    }
-}
+
+const adapter = new Adapter();
+adapter.operation();
+/*
+Adaptee someOperation() function called.
+*/

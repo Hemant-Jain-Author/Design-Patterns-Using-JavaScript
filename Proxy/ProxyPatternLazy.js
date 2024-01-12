@@ -1,39 +1,47 @@
-interface BookParser {
-    int numPages();
+// Interface
+class BookParser {
+    numPages() {
+        throw new Error('numPages method must be implemented');
+    }
 }
 
-class ConcreteBookParser implements BookParser {
-    private int numPages;
-
-    public ConcreteBookParser() {
-        System.out.println("Concrete Book Parser Created");
+// ConcreteBookParser class
+class ConcreteBookParser extends BookParser {
+    constructor() {
+        super();
+        console.log("Concrete Book Parser Created");
         // Number of pages calculation heavy operation.
         // Suppose this calculation results in 1000 pages.
-        this.numPages = 1000;
+        this.numPagesValue = 1000;
     }
 
-    @Override
-    public int numPages() {
-        System.out.println("Concrete Book Parser Request Method");
-        return this.numPages;
+    numPages() {
+        console.log("Concrete Book Parser Request Method");
+        return this.numPagesValue;
     }
 }
 
-class LazyBookParserProxy implements BookParser {
-    private ConcreteBookParser subject;
+// LazyBookParserProxy class
+class LazyBookParserProxy extends BookParser {
+    constructor() {
+        super();
+        this.subject = null;
+    }
 
-    @Override
-    public int numPages() {
-        if (subject == null) {
-            subject = new ConcreteBookParser();
+    numPages() {
+        if (!this.subject) {
+            this.subject = new ConcreteBookParser();
         }
-        return subject.numPages();
+        return this.subject.numPages();
     }
 }
 
-public class ProxyPatternLazy {
-    public static void main(String[] args) {
-        LazyBookParserProxy proxy = new LazyBookParserProxy();
-        System.out.println(proxy.numPages());
-    }
-}
+// Client code
+const proxy = new LazyBookParserProxy();
+console.log(proxy.numPages());
+
+/*
+Concrete Book Parser Created
+Concrete Book Parser Request Method
+1000
+*/

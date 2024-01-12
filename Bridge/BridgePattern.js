@@ -1,48 +1,40 @@
 // Abstraction interface
-interface Abstraction {
-    void operation();
+class Abstraction {
+    constructor(imp) {
+        this.imp = imp;
+    }
+
+    operation() {
+        this.imp.operation();
+    }
 }
 
 // Implementor interface
-interface Implementor {
-    void operation();
+class Implementor {
+    operation() {
+        throw new Error("Abstract method: operation");
+    }
 }
 
 // ConcreteImplementor1 class
-class ConcreteImplementor1 implements Implementor {
-    @Override
-    public void operation() {
-        System.out.println("ConcreteImplementor1 operation");
+class ConcreteImplementor1 extends Implementor {
+    operation() {
+        console.log("ConcreteImplementor1 operation");
     }
 }
 
 // ConcreteImplementor2 class
-class ConcreteImplementor2 implements Implementor {
-    @Override
-    public void operation() {
-        System.out.println("ConcreteImplementor2 operation");
-    }
-}
-
-// ConcreteAbstraction class
-class ConcreteAbstraction implements Abstraction {
-    private Implementor imp;
-
-    public ConcreteAbstraction(Implementor imp) {
-        this.imp = imp;
-    }
-
-    @Override
-    public void operation() {
-        imp.operation();
+class ConcreteImplementor2 extends Implementor {
+    operation() {
+        console.log("ConcreteImplementor2 operation");
     }
 }
 
 // Client code
-public class BridgePattern {
-    public static void main(String[] args) {
-        Implementor c1 = new ConcreteImplementor1();
-        Abstraction abstraction = new ConcreteAbstraction(c1);
-        abstraction.operation();
-    }
-}
+const c1 = new ConcreteImplementor1();
+const abstraction = new Abstraction(c1);
+abstraction.operation();
+
+/*
+ConcreteImplementor1 operation
+*/

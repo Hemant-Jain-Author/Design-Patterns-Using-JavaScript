@@ -1,55 +1,55 @@
-import java.util.HashMap;
-import java.util.Map;
-
 // Flyweight interface
-interface Flyweight {
-    void operation(Object extrinsicState);
-}
-
-// Concrete Flyweight class
-class ConcreteFlyweight implements Flyweight {
-    private String intrinsicState;
-
-    public ConcreteFlyweight(String intrinsicState) {
+class Flyweight {
+    constructor(intrinsicState) {
         this.intrinsicState = intrinsicState;
     }
 
-    @Override
-    public void operation(Object extrinsicState) {
-        System.out.println("Operation inside concrete flyweight");
+    // Common operation for all flyweight instances
+    operation(extrinsicState) {
+        console.log(`Operation inside concrete flyweight with intrinsic state: ${this.intrinsicState}`);
     }
 }
 
 // FlyweightFactory class
 class FlyweightFactory {
-    private Map<String, Flyweight> flyweights = new HashMap<>();
-
-    public Flyweight getFlyweight(String key) {
-        if (!flyweights.containsKey(key)) {
-            flyweights.put(key, new ConcreteFlyweight(key));
-        }
-        return flyweights.get(key);
+    constructor() {
+        this.flyweights = new Map();
     }
 
-    public int getCount() {
-        return flyweights.size();
+    getFlyweight(key) {
+        if (!this.flyweights.has(key)) {
+            this.flyweights.set(key, new Flyweight(key));
+            console.log(`Creating a new flyweight with key: ${key}`);
+        } else {
+            console.log(`Reusing existing flyweight with key: ${key}`);
+        }
+        return this.flyweights.get(key);
+    }
+
+    getCount() {
+        return this.flyweights.size;
     }
 }
 
 // Client code
-public class FlyweightPattern {
-    public static void main(String[] args) {
-        FlyweightFactory factory = new FlyweightFactory();
-        Flyweight flyweight1 = factory.getFlyweight("key");
-        Flyweight flyweight2 = factory.getFlyweight("key");
-        flyweight1.operation(null);
-        System.out.println(flyweight1 + " " + flyweight2);
-        System.out.println("Object count: " + factory.getCount());
-    }
-}
+// Create a flyweight factory
+const factory = new FlyweightFactory();
+
+// Obtain flyweight instances
+const flyweight1 = factory.getFlyweight("key");
+const flyweight2 = factory.getFlyweight("key");
+
+// Perform operations on flyweights
+flyweight1.operation("fw1");
+
+// Display flyweight instances and count
+console.log(`Flyweight instances: ${flyweight1.intrinsicState}, ${flyweight2.intrinsicState}`);
+console.log("Object count: " + factory.getCount());
 
 /* 
-Operation inside concrete flyweight
-ConcreteFlyweight@73d16e93 ConcreteFlyweight@73d16e93
+Creating a new flyweight with key: key
+Reusing existing flyweight with key: key
+Operation inside concrete flyweight with intrinsic state: key
+Flyweight instances: key, key
 Object count: 1
 */

@@ -1,44 +1,48 @@
-interface Strategy {
-    void execute(int data);
-}
-
-class ConcreteStrategy1 implements Strategy {
-    @Override
-    public void execute(int data) {
-        System.out.println("ConcreteStrategy1 execute");
+// Define Strategy interface
+class Strategy {
+    execute(data) {
+        throw new Error("execute method must be implemented");
     }
 }
 
-class ConcreteStrategy2 implements Strategy {
-    @Override
-    public void execute(int data) {
-        System.out.println("ConcreteStrategy2 execute");
+// Define ConcreteStrategy1 class implementing Strategy
+class ConcreteStrategy1 extends Strategy {
+    execute(data) {
+        console.log("ConcreteStrategy1 execute");
     }
 }
 
+// Define ConcreteStrategy2 class implementing Strategy
+class ConcreteStrategy2 extends Strategy {
+    execute(data) {
+        console.log("ConcreteStrategy2 execute");
+    }
+}
+
+// Define Context class
 class Context {
-    private Strategy strategy;
-
-    Context(Strategy strategy) {
+    constructor(strategy) {
         this.strategy = strategy;
     }
 
-    void setStrategy(Strategy strategy) {
+    setStrategy(strategy) {
         this.strategy = strategy;
     }
 
-    void execute() {
-        int data = 1;
+    execute() {
+        const data = 1;
         this.strategy.execute(data);
     }
 }
 
-public class StrategyPattern {
-    public static void main(String[] args) {
-        Context context = new Context(new ConcreteStrategy1());
-        context.execute();
+// Client code
+const context = new Context(new ConcreteStrategy1());
+context.execute();
 
-        context.setStrategy(new ConcreteStrategy2());
-        context.execute();
-    }
-}
+context.setStrategy(new ConcreteStrategy2());
+context.execute();
+
+/*
+ConcreteStrategy1 execute
+ConcreteStrategy2 execute
+*/

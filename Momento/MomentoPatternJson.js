@@ -1,136 +1,131 @@
-import java.util.ArrayList;
-import java.util.List;
-
-class Memento implements Cloneable {
-    private Object state;
-
-    public Memento(Object state) {
+class Memento {
+    constructor(state) {
         this.state = state;
     }
 
-    public Object getState() {
-        return state;
-    }
-
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    getState() {
+        return this.state;
     }
 }
 
 class Originator {
-    private Object state;
-
-    public void setState(Object state) {
+    setState(state) {
         this.state = state;
     }
 
-    public Object getState() {
-        return state;
+    getState() {
+        return { state: this.state };
     }
 
-    public Memento createMemento() {
-        return new Memento(state);
+    createMemento() {
+        return new Memento({ state: this.state });
     }
 
-    public void setMemento(Memento m) {
-        this.state = m.getState();
+    setMemento(m) {
+        console.log(m.state);
+        this.state = m.state;
     }
 }
 
 class CareTaker {
-    private List<Memento> history;
-    private int top;
-    private int max;
-
-    public CareTaker() {
-        this.history = new ArrayList<>();
+    constructor() {
+        this.history = [];
         this.top = -1;
         this.max = -1;
     }
 
-    public void addMemento(Memento m) {
-        top += 1;
-        max = top;
-        if (top <= history.size() - 1) {
-            try {
-                history.set(top, (Memento) m.clone());
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
+    addMemento(m) {
+        this.top += 1;
+        this.max = this.top;
+        if (this.top <= this.history.length - 1) {
+            this.history[this.top] = JSON.parse(JSON.stringify(m));
         } else {
-            try {
-                history.add((Memento) m.clone());
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
+            this.history.push(JSON.parse(JSON.stringify(m)));
         }
     }
 
-    public Memento getMemento(int index) {
-        return history.get(index);
+    getMemento(index) {
+        return this.history[index];
     }
 
-    public Memento undo() {
-        System.out.println("Undoing state.");
-        if (top <= 0) {
-            top = 0;
-            return history.get(0);
+    undo() {
+        console.log("Undoing state.");
+        if (this.top <= 0) {
+            return JSON.parse(JSON.stringify(this.getMemento(0)));
         }
 
-        top -= 1;
-        return history.get(top);
+        this.top -= 1;
+        return JSON.parse(JSON.stringify(this.getMemento(this.top)));
     }
 
-    public Memento redo() {
-        System.out.println("Redoing state.");
-        if (top >= (history.size() - 1) || top >= max) {
-            return history.get(top);
+    redo() {
+        console.log("Redoing state.");
+        if (this.top >= this.history.length - 1 || this.top >= this.max) {
+            return JSON.parse(JSON.stringify(this.getMemento(this.top)));
         }
 
-        top += 1;
-        return history.get(top);
+        this.top += 1;
+        return JSON.parse(JSON.stringify(this.getMemento(this.top)));
     }
 
-    public int getStatesCount() {
-        return history.size();
+    getStatesCount() {
+        return this.history.length;
     }
 }
 
-public class MomentoPatternJson {
-    public static void main(String[] args) {
-        Originator originator = new Originator();
-        CareTaker careTaker = new CareTaker();
+// Client code
+const originator = new Originator();
+const careTaker = new CareTaker();
 
-        originator.setState("State 1");
-        careTaker.addMemento(originator.createMemento());
-        System.out.println(originator.getState());
+originator.setState("State 1");
+careTaker.addMemento(originator.createMemento());
+console.log(originator.getState());
 
-         originator.setState("State 2");
-        careTaker.addMemento(originator.createMemento());
-        System.out.println(originator.getState());
+originator.setState("State 2");
+careTaker.addMemento(originator.createMemento());
+console.log(originator.getState());
 
-        originator.setState("State 3");
-        careTaker.addMemento(originator.createMemento());
-        System.out.println(originator.getState());
+originator.setState("State 3");
+careTaker.addMemento(originator.createMemento());
+console.log(originator.getState());
 
-        originator.setMemento(careTaker.undo());
-        System.out.println(originator.getState());
+originator.setMemento(careTaker.undo());
+console.log(originator.getState());
 
-        originator.setMemento(careTaker.undo());
-        System.out.println(originator.getState());
+originator.setMemento(careTaker.undo());
+console.log(originator.getState());
 
-        originator.setState("State 4");
-        careTaker.addMemento(originator.createMemento());
-        System.out.println(originator.getState());
+originator.setState("State 4");
+careTaker.addMemento(originator.createMemento());
+console.log(originator.getState());
 
-        originator.setMemento(careTaker.redo());
-        System.out.println(originator.getState());
+originator.setMemento(careTaker.redo());
+console.log(originator.getState());
 
-        originator.setMemento(careTaker.redo());
-        System.out.println(originator.getState());
+originator.setMemento(careTaker.redo());
+console.log(originator.getState());
 
-        originator.setMemento(careTaker.redo());
-        System.out.println(originator.getState());
-    }
-}
+originator.setMemento(careTaker.redo());
+console.log(originator.getState());
+
+/*
+{ state: 'State 1' }
+{ state: 'State 2' }
+{ state: 'State 3' }
+Undoing state.
+{ state: 'State 2' }
+{ state: { state: 'State 2' } }
+Undoing state.
+{ state: 'State 1' }
+{ state: { state: 'State 1' } }
+{ state: 'State 4' }
+Redoing state.
+{ state: 'State 4' }
+{ state: { state: 'State 4' } }
+Redoing state.
+{ state: 'State 4' }
+{ state: { state: 'State 4' } }
+Redoing state.
+{ state: 'State 4' }
+{ state: { state: 'State 4' } }
+*/

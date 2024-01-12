@@ -1,73 +1,99 @@
-abstract class AbstractWorker {
-    final void dailyRoutine() {
-        wakeUp();
-        eatBreakfast();
-        goToWork();
-        work();
-        comeBackHome();
-        eatDinner();
-        sleep();
+// Define AbstractWorker
+class AbstractWorker {
+    dailyRoutine() {
+        this.wakeUp();
+        this.eatBreakfast();
+        this.goToWork();
+        this.work();
+        this.comeBackHome();
+        this.eatDinner();
+        this.sleep();
     }
 
-    void wakeUp() {
-        System.out.println("Wake Up");
+    wakeUp() {
+        console.log("Wake Up");
     }
 
-    void eatBreakfast() {
-        System.out.println("Eat Breakfast");
+    eatBreakfast() {
+        console.log("Eat Breakfast");
     }
 
-    void goToWork() {
-        System.out.println("Go to work");
+    goToWork() {
+        console.log("Go to work");
     }
 
-    abstract void work();
-
-    void comeBackHome() {
-        System.out.println("Come back Home");
+    work() {
+        throw new Error("work method must be implemented");
     }
 
-    void eatDinner() {
-        System.out.println("Eat dinner");
+    comeBackHome() {
+        console.log("Come back Home");
     }
 
-    void sleep() {
-        System.out.println("Sleep");
+    eatDinner() {
+        console.log("Eat dinner");
+    }
+
+    sleep() {
+        console.log("Sleep");
     }
 }
 
+// Define Doctor extending AbstractWorker
 class Doctor extends AbstractWorker {
-    @Override
-    void work() {
-        System.out.println("...Treat Patients...");
+    work() {
+        console.log("...Treat Patients...");
     }
 }
 
+// Define FireFighter extending AbstractWorker
 class FireFighter extends AbstractWorker {
-    @Override
-    void work() {
-        System.out.println("...Fight Fire...");
+    work() {
+        console.log("...Fight Fire...");
     }
 }
 
+// Define SuperHero extending AbstractWorker
 class SuperHero extends AbstractWorker {
-    @Override
-    void work() {
-        System.out.println("...Save the world!...");
+    work() {
+        console.log("...Save the world!...");
     }
 }
 
-public class TemplatePatternPerson {
-    public static void main(String[] args) {
-        Doctor doctor = new Doctor();
-        doctor.dailyRoutine();
-        System.out.println();
+// Client code
+const doctor = new Doctor();
+doctor.dailyRoutine();
+console.log();
 
-        FireFighter fireFighter = new FireFighter();
-        fireFighter.dailyRoutine();
-        System.out.println();
+const fireFighter = new FireFighter();
+fireFighter.dailyRoutine();
+console.log();
 
-        SuperHero superHero = new SuperHero();
-        superHero.dailyRoutine();
-    }
-}
+const superHero = new SuperHero();
+superHero.dailyRoutine();
+
+/*
+Wake Up
+Eat Breakfast
+Go to work
+...Treat Patients...
+Come back Home
+Eat dinner
+Sleep
+
+Wake Up
+Eat Breakfast
+Go to work
+...Fight Fire...
+Come back Home
+Eat dinner
+Sleep
+
+Wake Up
+Eat Breakfast
+Go to work
+...Save the world!...
+Come back Home
+Eat dinner
+Sleep
+*/

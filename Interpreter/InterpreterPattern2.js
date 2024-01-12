@@ -1,71 +1,65 @@
-import java.util.HashMap;
-import java.util.Map;
-
 // Abstract Expression
-interface Expression {
-    int interpret();
+class Expression {
+    interpret(context) { }
 }
 
 // Terminal Expression
-class NumberExpression implements Expression {
-    private int number;
-
-    public NumberExpression(int number) {
+class NumberExpression extends Expression {
+    constructor(number) {
+        super();
         this.number = number;
     }
 
-    @Override
-    public int interpret() {
-        return number;
+    interpret() {
+        return this.number;
     }
 }
 
 // Non-terminal Expression
-class AddExpression implements Expression {
-    private Expression leftExpression;
-    private Expression rightExpression;
-
-    public AddExpression(Expression leftExpression, Expression rightExpression) {
+class AddExpression extends Expression {
+    constructor(leftExpression, rightExpression) {
+        super();
         this.leftExpression = leftExpression;
         this.rightExpression = rightExpression;
     }
 
-    @Override
-    public int interpret() {
-        return leftExpression.interpret() + rightExpression.interpret();
+    interpret(context) {
+        return this.leftExpression.interpret(context) + this.rightExpression.interpret(context);
     }
 }
 
 // Context
 class Context {
-    private Map<String, Integer> variables = new HashMap<>();
-
-    public void setVariable(String variable, int value) {
-        variables.put(variable, value);
+    constructor() {
+        this.variables = new Map();
     }
 
-    public int getVariable(String variable) {
-        return variables.getOrDefault(variable, 0);
+    setVariable(variable, value) {
+        this.variables.set(variable, value);
+    }
+
+    getVariable(variable) {
+        return this.variables.get(variable) || 0;
     }
 }
 
 // Client code
-public class InterpreterPattern2 {
-    public static void main(String[] args) {
-        Context context = new Context();
-        context.setVariable("x", 10);
-        context.setVariable("y", 5);
+const context = new Context();
+context.setVariable("x", 10);
+context.setVariable("y", 5);
 
-        // Create the expression tree: x + (y + 2)
-        Expression expression = new AddExpression(
-                new NumberExpression(context.getVariable("x")),
-                new AddExpression(
-                        new NumberExpression(context.getVariable("y")),
-                        new NumberExpression(2)
-                )
-        );
+// Create the expression tree: x + (y + 2)
+const expression = new AddExpression(
+    new NumberExpression(context.getVariable("x")),
+    new AddExpression(
+        new NumberExpression(context.getVariable("y")),
+        new NumberExpression(2)
+    )
+);
 
-        int result = expression.interpret();
-        System.out.println("Result: " + result);  // Output: Result: 17
-    }
-}
+const result = expression.interpret(context);
+console.log("Result:", result);  // Output: Result: 17
+
+/*
+Result: 17
+*/

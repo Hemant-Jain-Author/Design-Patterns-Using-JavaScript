@@ -1,113 +1,111 @@
-import java.util.ArrayList;
-import java.util.List;
+class Element {
+    price() {
+        throw new Error("price method must be implemented");
+    }
 
-abstract class Element {
-    abstract double accept(Visitor visitor);
-    abstract double price();
+    accept(visitor) {
+        throw new Error("accept method must be implemented");
+    }
 }
 
 class Book extends Element {
-    private double price;
-    private int isbn;
-
-    public Book(double price, int isbn) {
-        this.price = price;
+    constructor(price, isbn) {
+        super();
+        this.priceValue = price;
         this.isbn = isbn;
     }
 
-    @Override
-    double price(){
-        return price;
+    price() {
+        return this.priceValue;
     }
 
-    @Override
-    double accept(Visitor visitor) {
+    accept(visitor) {
         return visitor.visitBook(this);
     }
 }
 
 class Fruit extends Element {
-    private double price;
-    private int quantity;
-    private String type;
-
-    public Fruit(double price, int quantity, String type) {
-        this.price = price;
+    constructor(price, quantity, type) {
+        super();
+        this.priceValue = price;
         this.quantity = quantity;
         this.type = type;
     }
 
-    @Override
-    double price(){
-        return price;
+    price() {
+        return this.priceValue;
     }
 
-    @Override
-    double accept(Visitor visitor) {
-        return visitor.visitFruit(this) * quantity;
+    accept(visitor) {
+        return visitor.visitFruit(this) * this.quantity;
     }
 }
 
-abstract class Visitor {
-    abstract double visitBook(Book book);
-    abstract double visitFruit(Fruit fruit);
+class Visitor {
+    visitBook(book) {
+        throw new Error("visitBook method must be implemented");
+    }
+
+    visitFruit(fruit) {
+        throw new Error("visitFruit method must be implemented");
+    }
 }
 
 class SundayDiscount extends Visitor {
-    @Override
-    double visitBook(Book book) {
+    visitBook(book) {
         return book.price() - 50;
     }
 
-    @Override
-    double visitFruit(Fruit fruit) {
+    visitFruit(fruit) {
         return fruit.price() - 5;
     }
 }
 
 class SaleDiscount extends Visitor {
-    @Override
-    double visitBook(Book book) {
+    visitBook(book) {
         return book.price() / 2;
     }
 
-    @Override
-    double visitFruit(Fruit fruit) {
+    visitFruit(fruit) {
         return fruit.price() / 2;
     }
 }
 
 class ShoppingCart {
-    private List<Element> list = new ArrayList<>();
-    private Visitor visitor;
-
-    public void add(Element element) {
-        list.add(element);
+    constructor() {
+        this.list = [];
+        this.visitor = null;
     }
 
-    public void setDiscountVisitor(Visitor discount) {
+    add(element) {
+        this.list.push(element);
+    }
+
+    setDiscountVisitor(discount) {
         this.visitor = discount;
     }
 
-    public void accept() {
-        double cost = 0;
-        for (Element element : list) {
-            cost += element.accept(visitor);
+    accept() {
+        let cost = 0;
+        for (const element of this.list) {
+            cost += element.accept(this.visitor);
         }
-        System.out.println("Total cost: " + cost);
+        console.log("Total cost: " + cost);
     }
 }
 
-public class VisitorShopping {
-    public static void main(String[] args) {
-        ShoppingCart cart = new ShoppingCart();
-        cart.add(new Fruit(100, 10, "Apple"));
-        cart.add(new Book(100, 12345));
+// Client code
+const cart = new ShoppingCart();
+cart.add(new Fruit(100, 10, "Apple"));
+cart.add(new Book(100, 12345));
 
-        cart.setDiscountVisitor(new SundayDiscount());
-        cart.accept();
+cart.setDiscountVisitor(new SundayDiscount());
+cart.accept();
 
-        cart.setDiscountVisitor(new SaleDiscount());
-        cart.accept();
-    }
-}
+cart.setDiscountVisitor(new SaleDiscount());
+cart.accept();
+
+/*
+Total cost: 1000
+Total cost: 550
+*/

@@ -1,57 +1,66 @@
-interface Element {
-    void accept(Visitor visitor);
+// Define Element interface
+class Element {
+    accept(visitor) {
+        throw new Error("accept method must be implemented");
+    }
 }
 
-class ConcreteElementA implements Element {
-    @Override
-    public void accept(Visitor visitor) {
+// Define ConcreteElementA implementing Element
+class ConcreteElementA extends Element {
+    accept(visitor) {
         visitor.visitElementA(this);
     }
 }
 
-class ConcreteElementB implements Element {
-    @Override
-    public void accept(Visitor visitor) {
+// Define ConcreteElementB implementing Element
+class ConcreteElementB extends Element {
+    accept(visitor) {
         visitor.visitElementB(this);
     }
 }
 
-interface Visitor {
-    void visitElementA(ConcreteElementA elementA);
-    void visitElementB(ConcreteElementB elementB);
-}
-
-class ConcreteVisitor1 implements Visitor {
-    @Override
-    public void visitElementA(ConcreteElementA elementA) {
-        System.out.println("ConcreteVisitor1 visitElementA() method called.");
+// Define Visitor interface
+class Visitor {
+    visitElementA(elementA) {
+        throw new Error("visitElementA method must be implemented");
     }
 
-    @Override
-    public void visitElementB(ConcreteElementB elementB) {
-        System.out.println("ConcreteVisitor1 visitElementB() method called.");
+    visitElementB(elementB) {
+        throw new Error("visitElementB method must be implemented");
     }
 }
 
-class ConcreteVisitor2 implements Visitor {
-    @Override
-    public void visitElementA(ConcreteElementA elementA) {
-        System.out.println("ConcreteVisitor2 visitElementA() method called.");
+// Define ConcreteVisitor1 implementing Visitor
+class ConcreteVisitor1 extends Visitor {
+    visitElementA(elementA) {
+        console.log("ConcreteVisitor1 visitElementA() method called.");
     }
 
-    @Override
-    public void visitElementB(ConcreteElementB elementB) {
-        System.out.println("ConcreteVisitor2 visitElementB() method called.");
+    visitElementB(elementB) {
+        console.log("ConcreteVisitor1 visitElementB() method called.");
+    }
+}
+
+// Define ConcreteVisitor2 implementing Visitor
+class ConcreteVisitor2 extends Visitor {
+    visitElementA(elementA) {
+        console.log("ConcreteVisitor2 visitElementA() method called.");
+    }
+
+    visitElementB(elementB) {
+        console.log("ConcreteVisitor2 visitElementB() method called.");
     }
 }
 
-public class VisitorPattern {
-    public static void main(String[] args) {
-        Visitor visitor1 = new ConcreteVisitor1();
-        Element elementA = new ConcreteElementA();
-        elementA.accept(visitor1);
+// Client code
+const visitor1 = new ConcreteVisitor1();
+const elementA = new ConcreteElementA();
+elementA.accept(visitor1);
 
-        Element elementB = new ConcreteElementB();
-        elementB.accept(visitor1);
-    }
-}
+const elementB = new ConcreteElementB();
+elementB.accept(visitor1);
+
+/*
+ConcreteVisitor1 visitElementA() method called.
+ConcreteVisitor1 visitElementB() method called.
+*/

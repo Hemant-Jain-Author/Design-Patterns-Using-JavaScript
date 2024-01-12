@@ -1,73 +1,69 @@
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
-interface Observer {
-    void notify(String subject, String message);
+class Observer {
+    notify(subject, message) {
+        console.log(`${this.constructor.name} received message on subject '${subject}': ${message}`);
+    }
 }
 
 class Courses {
-    private Map<String, Set<Observer>> courseStudents = new HashMap<>();
-
-    public void subscribe(String subject, Observer student) {
-        courseStudents.computeIfAbsent(subject, k -> new HashSet<>()).add(student);
+    constructor() {
+        this.courseStudents = new Map();
     }
 
-    public void unsubscribe(String subject, Observer student) {
-        courseStudents.getOrDefault(subject, new HashSet<>()).remove(student);
+    subscribe(subject, student) {
+        if (!this.courseStudents.has(subject)) {
+            this.courseStudents.set(subject, new Set());
+        }
+        this.courseStudents.get(subject).add(student);
     }
 
-    public void publish(String subject, String message) {
-        if (!courseStudents.containsKey(subject)) {
-            System.out.println("No subscribers for subject '" + subject + "'.");
+    unsubscribe(subject, student) {
+        const students = this.courseStudents.get(subject);
+        if (students) {
+            students.delete(student);
+        }
+    }
+
+    publish(subject, message) {
+        if (!this.courseStudents.has(subject)) {
+            console.log(`No subscribers for subject '${subject}'.`);
             return;
         }
 
-        for (Observer student : courseStudents.get(subject)) {
+        for (const student of this.courseStudents.get(subject)) {
             student.notify(subject, message);
         }
     }
 }
 
-class Student implements Observer {
-    private String name;
-
-    public Student(String name) {
+class Student extends Observer {
+    constructor(name) {
+        super();
         this.name = name;
     }
-
-    @Override
-    public void notify(String subject, String message) {
-        System.out.println(name + " received message on subject '" + subject + "': " + message);
-    }
 }
 
-public class CourseStudentPubSub {
-    public static void main(String[] args) {
-        Courses courses = new Courses();
-        Student john = new Student("John");
-        Student eric = new Student("Eric");
-        Student jack = new Student("Jack");
+// Main class (Client code)
+const courses = new Courses();
+const john = new Student("John");
+const eric = new Student("Eric");
+const jack = new Student("Jack");
 
-        courses.subscribe("English", john);
-        courses.subscribe("English", eric);
-        courses.subscribe("Maths", eric);
-        courses.subscribe("Science", jack);
+courses.subscribe("English", john);
+courses.subscribe("English", eric);
+courses.subscribe("Maths", eric);
+courses.subscribe("Science", jack);
 
-        courses.publish("English", "Tomorrow class at 11");
-        courses.publish("Maths", "Tomorrow class at 1");
+courses.publish("English", "Tomorrow class at 11");
+courses.publish("Maths", "Tomorrow class at 1");
 
-        // Unsubscribe Eric from English
-        courses.unsubscribe("English", eric);
+// Unsubscribe Eric from English
+courses.unsubscribe("English", eric);
 
-        courses.publish("English", "Updated schedule for English");
-    }
-}
+courses.publish("English", "Updated schedule for English");
 
 /*
-Eric received message on subject 'English': Tomorrow class at 11
-John received message on subject 'English': Tomorrow class at 11
-Eric received message on subject 'Maths': Tomorrow class at 1
-John received message on subject 'English': Updated schedule for English
+Student received message on subject 'English': Tomorrow class at 11
+Student received message on subject 'English': Tomorrow class at 11
+Student received message on subject 'Maths': Tomorrow class at 1
+Student received message on subject 'English': Updated schedule for English
 */

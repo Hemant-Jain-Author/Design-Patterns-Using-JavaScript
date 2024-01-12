@@ -1,49 +1,49 @@
-abstract class Handler {
-    protected Handler successor = null;
-
-    public Handler(Handler successor) {
+class Handler {
+    constructor(successor) {
         this.successor = successor;
     }
 
-    public abstract void handleRequest();
+    handleRequest() {
+        throw new Error("Abstract method: handleRequest");
+    }
 }
 
 class ConcreteHandler1 extends Handler {
-    public ConcreteHandler1(Handler successor) {
+    constructor(successor) {
         super(successor);
     }
 
-    @Override
-    public void handleRequest() {
-        if (true) {  // Can handle request.
-            System.out.println("Finally handled by ConcreteHandler1");
-        } else if (successor != null) {
-            System.out.println("Message passed to next in chain by ConcreteHandler1");
-            successor.handleRequest();
+    handleRequest() {
+        if (true) { // Can handle request.
+            console.log("Finally handled by ConcreteHandler1");
+        } else if (this.successor !== null) {
+            console.log("Message passed to next in chain by ConcreteHandler1");
+            this.successor.handleRequest();
         }
     }
 }
 
 class ConcreteHandler2 extends Handler {
-    public ConcreteHandler2(Handler successor) {
+    constructor(successor) {
         super(successor);
     }
 
-    @Override
-    public void handleRequest() {
-        if (false) {  // Can't handle request.
-            System.out.println("Finally handled by ConcreteHandler2");
-        } else if (successor != null) {
-            System.out.println("Message passed to next in chain by ConcreteHandler2");
-            successor.handleRequest();
+    handleRequest() {
+        if (false) { // Can't handle request.
+            console.log("Finally handled by ConcreteHandler2");
+        } else if (this.successor !== null) {
+            console.log("Message passed to next in chain by ConcreteHandler2");
+            this.successor.handleRequest();
         }
     }
 }
 
-public class ChainOfResponsibility {
-    public static void main(String[] args) {
-        ConcreteHandler1 ch1 = new ConcreteHandler1(null);
-        ConcreteHandler2 ch2 = new ConcreteHandler2(ch1);
-        ch2.handleRequest();
-    }
-}
+// Client code
+const ch1 = new ConcreteHandler1(null);
+const ch2 = new ConcreteHandler2(ch1);
+ch2.handleRequest();
+
+/*
+Message passed to next in chain by ConcreteHandler2
+Finally handled by ConcreteHandler1
+*/

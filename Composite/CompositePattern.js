@@ -1,50 +1,53 @@
-import java.util.HashSet;
-import java.util.Set;
-
 // Component
-abstract class Component {
-    public abstract void operation();
+class Component {
+    operation() {
+        throw new Error("Abstract method: operation");
+    }
 }
 
 // Composite
 class Composite extends Component {
-    private Set<Component> children = new HashSet<>();
+    constructor() {
+        super();
+        this.children = new Set();
+    }
 
-    @Override
-    public void operation() {
-        System.out.println("Composite Operation");
-        for (Component child : children) {
+    operation() {
+        console.log("Composite Operation");
+        for (const child of this.children) {
             child.operation();
         }
     }
 
-    public void add(Component component) {
-        children.add(component);
+    add(component) {
+        this.children.add(component);
     }
 
-    public void remove(Component component) {
-        children.remove(component);
+    remove(component) {
+        this.children.delete(component);
     }
 }
 
 // Leaf
 class Leaf extends Component {
-    @Override
-    public void operation() {
-        System.out.println("Leaf Operation");
+    operation() {
+        console.log("Leaf Operation");
     }
 }
 
 // Client code
-public class CompositePattern {
-    public static void main(String[] args) {
-        Composite composite = new Composite();
-        composite.add(new Leaf());
+const composite = new Composite();
+composite.add(new Leaf());
 
-        Composite composite2 = new Composite();
-        composite2.add(new Leaf());
+const composite2 = new Composite();
+composite2.add(new Leaf());
 
-        composite.add(composite2);
-        composite.operation();
-    }
-}
+composite.add(composite2);
+composite.operation();
+
+/*
+Composite Operation
+Leaf Operation
+Composite Operation
+Leaf Operation
+*/

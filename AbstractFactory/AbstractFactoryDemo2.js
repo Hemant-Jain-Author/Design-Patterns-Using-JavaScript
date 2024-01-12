@@ -1,90 +1,96 @@
 // Abstract ProductA
-interface ProductA {
-    void operationA();
-}
-
-// Concrete ProductA1
-class ProductA1 implements ProductA {
-    @Override
-    public void operationA() {
-        System.out.println("ProductA1 operationA");
+class ProductA {
+    operationA() {
+        console.log("ProductA operationA");
     }
 }
 
+// Concrete ProductA1
+class ProductA1 extends ProductA {
+    operationA() {
+        console.log("ProductA1 operationA");
+    }
+
+}
+
 // Concrete ProductA2
-class ProductA2 implements ProductA {
-    @Override
-    public void operationA() {
-        System.out.println("ProductA2 operationA");
+class ProductA2 extends ProductA {
+    operationA() {
+        console.log("ProductA2 operationA");
     }
 }
 
 // Abstract ProductB
-interface ProductB {
-    void operationB();
+class ProductB {
+    operationB() {
+        console.log("ProductB operationB");
+    }
 }
 
 // Concrete ProductB1
-class ProductB1 implements ProductB {
-    @Override
-    public void operationB() {
-        System.out.println("ProductB1 operationB");
+class ProductB1 extends ProductB {
+
+    operationB() {
+        console.log("ProductB1 operationB");
     }
 }
 
 // Concrete ProductB2
-class ProductB2 implements ProductB {
-    @Override
-    public void operationB() {
-        System.out.println("ProductB2 operationB");
+class ProductB2 extends ProductB {
+    operationB() {
+        console.log("ProductB2 operationB");
     }
 }
 
 // Abstract Factory
-interface AbstractFactory {
-    ProductA createProductA();
-    ProductB createProductB();
+class AbstractFactory {
+    createProductA() {
+        throw new Error("Abstract method: createProductA");
+    }
+
+    createProductB() {
+        throw new Error("Abstract method: createProductB");
+    }
 }
 
 // Concrete Factory1
-class ConcreteFactory1 implements AbstractFactory {
-    @Override
-    public ProductA createProductA() {
+class ConcreteFactory1 extends AbstractFactory {
+    createProductA() {
         return new ProductA1();
     }
 
-    @Override
-    public ProductB createProductB() {
+    createProductB() {
         return new ProductB1();
     }
 }
 
 // Concrete Factory2
-class ConcreteFactory2 implements AbstractFactory {
-    @Override
-    public ProductA createProductA() {
+class ConcreteFactory2 extends AbstractFactory {
+    createProductA() {
         return new ProductA2();
     }
 
-    @Override
-    public ProductB createProductB() {
+    createProductB() {
         return new ProductB2();
     }
 }
 
 // Client code
-public class AbstractFactoryDemo2 {
-    public static void main(String[] args) {
-        AbstractFactory factory1 = new ConcreteFactory1();
-        ProductA productA1 = factory1.createProductA();
-        ProductB productB1 = factory1.createProductB();
-        productA1.operationA();
-        productB1.operationB();
+const factory1 = new ConcreteFactory1();
+const productA1 = factory1.createProductA();
+const productB1 = factory1.createProductB();
+productA1.operationA();
+productB1.operationB();
 
-        AbstractFactory factory2 = new ConcreteFactory2();
-        ProductA productA2 = factory2.createProductA();
-        ProductB productB2 = factory2.createProductB();
-        productA2.operationA();
-        productB2.operationB();
-    }
-}
+const factory2 = new ConcreteFactory2();
+const productA2 = factory2.createProductA();
+const productB2 = factory2.createProductB();
+productA2.operationA();
+productB2.operationB();
+
+/*
+ProductA1 operationA
+ProductB operationB
+ProductA1 operationA
+ProductB operationB
+*/

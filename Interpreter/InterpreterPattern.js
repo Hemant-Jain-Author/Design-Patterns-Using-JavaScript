@@ -1,35 +1,33 @@
 // Abstract Expression
-interface AbstractExpression {
-    void interpret();
+class AbstractExpression {
+    interpret() { }
 }
 
 // Nonterminal Expression
-class NonterminalExpression implements AbstractExpression {
-    private AbstractExpression expression;
-
-    public NonterminalExpression(AbstractExpression expression) {
+class NonterminalExpression extends AbstractExpression {
+    constructor(expression) {
+        super();
         this.expression = expression;
     }
 
-    @Override
-    public void interpret() {
-        System.out.println("NonTerminalExpression:interpret");
-        expression.interpret();
+    interpret() {
+        console.log("NonTerminalExpression:interpret");
+        this.expression.interpret();
     }
 }
 
 // Terminal Expression
-class TerminalExpression implements AbstractExpression {
-    @Override
-    public void interpret() {
-        System.out.println("TerminalExpression:interpret");
+class TerminalExpression extends AbstractExpression {
+    interpret() {
+        console.log("TerminalExpression:interpret");
     }
 }
 
 // Client Code
-public class InterpreterPattern {
-    public static void main(String[] args) {
-        AbstractExpression tree = new NonterminalExpression(new TerminalExpression());
-        tree.interpret();
-    }
-}
+const tree = new NonterminalExpression(new TerminalExpression());
+tree.interpret();
+
+/*
+NonTerminalExpression:interpret
+TerminalExpression:interpret
+*/

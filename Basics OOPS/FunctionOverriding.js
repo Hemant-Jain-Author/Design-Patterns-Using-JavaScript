@@ -1,41 +1,39 @@
 class Person {
-    protected String name;
-    protected String oath;
-
-    public Person(String name) {
+    constructor(name) {
         this.name = name;
+        this.oath = '';
     }
 
-    public String toString() {
-        return "Person: " + name + ":" + oath;
+    toString() {
+        return `Person: ${this.name}:${this.oath}`;
     }
 
-    public void setOath() {
-        this.oath = "Always tell truth";
+    setOath() {
+        this.oath = 'Always tell the truth';
     }
 }
 
 class Citizen extends Person {
-    private int id;
-
-    public Citizen(String name, int id) {
+    constructor(name, id) {
         super(name);
         this.id = id;
     }
 
-    public void setOath() {
-        this.oath = "Country comes first";
+    setOath() {
+        this.oath = 'Country comes first';
     }
 }
 
-public class FunctionOverriding {
-    public static void main(String[] args) {
-        Person p = new Person("John");
-        p.setOath();
-        System.out.println(p.toString());
+// Client code
+const p = new Person("John");
+p.setOath();
+console.log(p.toString());
 
-        Citizen c = new Citizen("Smith", 31);
-        c.setOath();
-        System.out.println(c.toString());
-    }
-}
+const c = new Citizen("Smith", 31);
+c.setOath();
+console.log(c.toString());
+
+/*
+Person: John:Always tell the truth
+Person: Smith:Country comes first
+*/

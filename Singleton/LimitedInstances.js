@@ -1,37 +1,32 @@
-import java.util.ArrayList;
-import java.util.List;
+class LimitedInstances {
+    static instances = [];
+    static limit = 4;
 
-public class LimitedInstances {
-    private static List<LimitedInstances> instances = new ArrayList<>();
-    private static final int limit = 4;
+    constructor() {}
 
-    private LimitedInstances() {
-    }
-
-    public static LimitedInstances getInstance() {
-        if (instances.size() < limit) {
-            LimitedInstances instance = new LimitedInstances();
-            instances.add(instance);
+    static getInstance() {
+        if (LimitedInstances.instances.length < LimitedInstances.limit) {
+            const instance = new LimitedInstances();
+            LimitedInstances.instances.push(instance);
             return instance;
         } else {
-            throw new RuntimeException("Instance Limit reached");
+            throw new Error("Instance Limit reached");
         }
     }
+}
 
-    public static void main(String[] args) {
-        try {
-            LimitedInstances.getInstance();
-            LimitedInstances.getInstance();
-            LimitedInstances.getInstance();
-            LimitedInstances.getInstance();
-            LimitedInstances.getInstance();
-            LimitedInstances.getInstance();
-            LimitedInstances.getInstance();
-            LimitedInstances.getInstance();
-            LimitedInstances.getInstance();
-            LimitedInstances.getInstance();
-        } catch (RuntimeException e) {
-            System.out.println(e.getMessage());
-        }
-    }
+// Client code
+try {
+    LimitedInstances.getInstance();
+    LimitedInstances.getInstance();
+    LimitedInstances.getInstance();
+    LimitedInstances.getInstance();
+    LimitedInstances.getInstance();
+    LimitedInstances.getInstance();
+    LimitedInstances.getInstance();
+    LimitedInstances.getInstance();
+    LimitedInstances.getInstance();
+    LimitedInstances.getInstance();
+} catch (error) {
+    console.log(error.message);
 }

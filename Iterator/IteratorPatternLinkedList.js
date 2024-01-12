@@ -1,81 +1,68 @@
-import java.util.Iterator;
-
-class LinkedList implements Iterable<Integer> {
-    // Node class representing elements of linked list.
-    class Node {
-        int value;
-        Node next;
-
-        public Node(int v, Node n) {
-            value = v;
-            next = n;
-        }
-    }
-
-    Node head;
-    Node tail;
-    int size;
-
-    // Constructor of linked list.
-    public LinkedList() {
-        head = null;
-        tail = null;
-        size = 0;
-    }
-
-    public void addHead(int value) {
-        Node newNode = new Node(value, head);
-        if (head == null) {
-            tail = newNode;
-        }
-        head = newNode;
-        size++;
-    }
-
-    @Override
-    public Iterator<Integer> iterator() {
-        return new LinkedListIterator(this);
-    }
-
-    public int getSize() {
-        return size;
+class Node {
+    constructor(value, next) {
+        this.value = value;
+        this.next = next;
     }
 }
 
-class LinkedListIterator implements Iterator<Integer> {
-    LinkedList aggregate;
-    LinkedList.Node current;
-
-    public LinkedListIterator(LinkedList aggregate) {
+class LinkedListIterator {
+    constructor(aggregate) {
         this.aggregate = aggregate;
         this.current = aggregate.head;
     }
 
-    @Override
-    public boolean hasNext() {
-        return current != null;
+    hasNext() {
+        return this.current !== null;
     }
 
-    @Override
-    public Integer next() {
-        if (!hasNext()) {
-            throw new java.util.NoSuchElementException();
+    next() {
+        if (!this.hasNext()) {
+            throw new Error("No such element");
         }
-        int value = current.value;
-        current = current.next;
+        const value = this.current.value;
+        this.current = this.current.next;
         return value;
     }
 }
 
-class IteratorPatternLinkedList {
-    public static void main(String[] args) {
-        LinkedList aggregate = new LinkedList();
-        for (int i = 0; i < 5; i++) {
-            aggregate.addHead(i);
-        }
+class LinkedList {
+    constructor() {
+        this.head = null;
+        this.tail = null;
+        this.size = 0;
+    }
 
-        for (int val : aggregate) {
-            System.out.print(val + " ");
+    addHead(value) {
+        const newNode = new Node(value, this.head);
+        if (!this.head) {
+            this.tail = newNode;
         }
+        this.head = newNode;
+        this.size++;
+    }
+
+    iterator() {
+        return new LinkedListIterator(this);
+    }
+
+    getSize() {
+        return this.size;
     }
 }
+
+// Client code
+const linkedList = new LinkedList();
+linkedList.addHead(1);
+linkedList.addHead(2);
+linkedList.addHead(3);
+
+const iterator = linkedList.iterator();
+while (iterator.hasNext()) {
+    console.log(iterator.next());
+}
+
+/*
+3
+2
+1
+*/

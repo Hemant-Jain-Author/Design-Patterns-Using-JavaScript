@@ -1,63 +1,62 @@
 // Agent (Invoker)
 class Agent {
-    public void placeOrder(Order command) {
+    placeOrder(command) {
         command.execute();
     }
 }
 
 // Order (Command)
-abstract class Order {
-    public abstract void execute();
+class Order {
+    execute() {
+        throw new Error("Abstract method: execute");
+    }
 }
 
 // BuyStockOrder (ConcreteCommand)
 class BuyStockOrder extends Order {
-    private ReceiverStockTrade stock;
-
-    public BuyStockOrder(ReceiverStockTrade stock) {
+    constructor(stock) {
+        super();
         this.stock = stock;
     }
 
-    @Override
-    public void execute() {
-        stock.buy();
+    execute() {
+        this.stock.buy();
     }
 }
 
 // SellStockOrder (ConcreteCommand)
 class SellStockOrder extends Order {
-    private ReceiverStockTrade stock;
-
-    public SellStockOrder(ReceiverStockTrade stock) {
+    constructor(stock) {
+        super();
         this.stock = stock;
     }
 
-    @Override
-    public void execute() {
-        stock.sell();
+    execute() {
+        this.stock.sell();
     }
 }
 
 // Receiver
 class ReceiverStockTrade {
-    public void buy() {
-        System.out.println("Buy stocks");
+    buy() {
+        console.log("Buy stocks");
     }
 
-    public void sell() {
-        System.out.println("Sell stocks");
+    sell() {
+        console.log("Sell stocks");
     }
 }
 
 // Client code
-public class CommandPatternStock {
-    public static void main(String[] args) {
-        ReceiverStockTrade trader = new ReceiverStockTrade();
-        BuyStockOrder buyStock = new BuyStockOrder(trader);
-        SellStockOrder sellStock = new SellStockOrder(trader);
+const trader = new ReceiverStockTrade();
+const buyStock = new BuyStockOrder(trader);
+const sellStock = new SellStockOrder(trader);
 
-        Agent agent = new Agent();
-        agent.placeOrder(buyStock);
-        agent.placeOrder(sellStock);
-    }
-}
+const agent = new Agent();
+agent.placeOrder(buyStock);
+agent.placeOrder(sellStock);
+
+/*
+Buy stocks
+Sell stocks
+*/

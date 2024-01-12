@@ -1,48 +1,41 @@
-import java.util.ArrayList;
-import java.util.List;
-
 class Student {
-    private String name;
-
-    public Student(String name) {
+    constructor(name) {
         this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return "Student: " + name;
+    toString() {
+        return `Student: ${this.name}`;
     }
 }
 
 class SchoolClass {
-    private String className;
-    private List<Student> students;
-
-    public SchoolClass(String className) {
+    constructor(className) {
         this.className = className;
-        this.students = new ArrayList<>();
+        this.students = [];
     }
 
-    public void addStudent(Student student) {
-        students.add(student);
+    addStudent(student) {
+        this.students.push(student);
     }
 
-    public void display() {
-        for (Student student : students) {
-            System.out.println(student);
+    display() {
+        for (const student of this.students) {
+            console.log(student.toString());
         }
     }
 }
 
-public class AssociationRelationship {
-    public static void main(String[] args) {
-        SchoolClass schoolClass = new SchoolClass("SS1");
-        Student student1 = new Student("John Smith");
-        Student student2 = new Student("Jane Smith");
+// Client code
+const schoolClass = new SchoolClass("SS1");
+const student1 = new Student("John Smith");
+const student2 = new Student("Jane Smith");
 
-        schoolClass.addStudent(student1);
-        schoolClass.addStudent(student2);
+schoolClass.addStudent(student1);
+schoolClass.addStudent(student2);
 
-        schoolClass.display();
-    }
-}
+schoolClass.display();
+
+/*
+Student: John Smith
+Student: Jane Smith
+*/

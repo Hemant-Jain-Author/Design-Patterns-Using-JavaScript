@@ -1,45 +1,48 @@
-interface State {
-    void handle(Context context);
+// Define State interface
+class State {
+    handle(context) {
+        throw new Error("handle method must be implemented");
+    }
 }
 
+// Define Context class
 class Context {
-    private State currentState;
-
-    Context(State state) {
+    constructor(state) {
         this.currentState = state;
     }
 
-    void changeState(State state) {
+    changeState(state) {
         this.currentState = state;
     }
 
-    void request() {
+    request() {
         this.currentState.handle(this);
     }
 }
 
-class ConcreteState1 implements State {
-    @Override
-    public void handle(Context context) {
-        System.out.println("ConcreteState1 handle");
+// Define ConcreteState1 class implementing State
+class ConcreteState1 extends State {
+    handle(context) {
+        console.log("ConcreteState1 handle");
         context.changeState(new ConcreteState2());
     }
 }
 
-class ConcreteState2 implements State {
-    @Override
-    public void handle(Context context) {
-        System.out.println("ConcreteState2 handle");
+// Define ConcreteState2 class implementing State
+class ConcreteState2 extends State {
+    handle(context) {
+        console.log("ConcreteState2 handle");
         context.changeState(new ConcreteState1());
     }
 }
 
-// Client code.
-public class StatePattern2 {
-    public static void main(String[] args) {
-        State state1 = new ConcreteState1();
-        Context context = new Context(state1);
-        context.request();
-        context.request();
-    }
-}
+// Client code
+const state1 = new ConcreteState1();
+const context = new Context(state1);
+context.request();
+context.request();
+
+/*
+ConcreteState1 handle
+ConcreteState2 handle
+*/

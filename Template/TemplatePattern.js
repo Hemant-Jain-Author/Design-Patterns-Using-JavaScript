@@ -1,40 +1,46 @@
-abstract class AbstractClass {
-    final void templateMethod() {
-        operation1();
-        operation2();
+// Define AbstractClass
+class AbstractClass {
+    templateMethod() {
+        this.operation1();
+        this.operation2();
     }
 
-    abstract void operation1();
-    abstract void operation2();
+    operation1() {
+        throw new Error("operation1 method must be implemented");
+    }
+
+    operation2() {
+        throw new Error("operation2 method must be implemented");
+    }
 }
 
+// Define ConcreteClass1 extending AbstractClass
 class ConcreteClass1 extends AbstractClass {
-    @Override
-    void operation1() {
-        System.out.println("Concrete Class 1 : Operation 1");
+    operation1() {
+        console.log("Concrete Class 1: Operation 1");
     }
 
-    @Override
-    void operation2() {
-        System.out.println("Concrete Class 1 : Operation 2");
+    operation2() {
+        console.log("Concrete Class 1: Operation 2");
     }
 }
 
+// Define ConcreteClass2 extending AbstractClass
 class ConcreteClass2 extends AbstractClass {
-    @Override
-    void operation1() {
-        System.out.println("Concrete Class 2 : Operation 1");
+    operation1() {
+        console.log("Concrete Class 2: Operation 1");
     }
 
-    @Override
-    void operation2() {
-        System.out.println("Concrete Class 2 : Operation 2");
+    operation2() {
+        console.log("Concrete Class 2: Operation 2");
     }
 }
 
-public class TemplatePattern {
-    public static void main(String[] args) {
-        AbstractClass concreteClass = new ConcreteClass1();
-        concreteClass.templateMethod();
-    }
-}
+// Client code
+const concreteClass = new ConcreteClass1();
+concreteClass.templateMethod();
+
+/*
+Concrete Class 1: Operation 1
+Concrete Class 1: Operation 2
+*/

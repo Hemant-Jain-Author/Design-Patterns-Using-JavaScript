@@ -1,71 +1,51 @@
-import java.util.ArrayList;
-import java.util.List;
-
-interface Iterator {
-    int next();
-    boolean hasNext();
-}
-
-interface Aggregate {
-    Iterator getIterator();
-}
-
-class ConcreteIterator implements Iterator {
-    private ConcreteAggregate aggregate;
-    private int index;
-
-    public ConcreteIterator(ConcreteAggregate aggregate) {
-        this.aggregate = aggregate;
+// Iterator interface
+class Iterator {
+    constructor(collection) {
+        this.collection = collection;
         this.index = 0;
     }
 
-    @Override
-    public int next() {
-        if (index >= aggregate.getData().size()) {
-            throw new IndexOutOfBoundsException();
+    next() {
+        if (this.hasNext()) {
+            return this.collection[this.index++];
         }
-        int value = aggregate.getData().get(index);
-        index++;
-        return value;
+        return null;
     }
 
-    @Override
-    public boolean hasNext() {
-        return index < aggregate.getData().size();
+    hasNext() {
+        return this.index < this.collection.length;
     }
 }
 
-class ConcreteAggregate implements Aggregate {
-    private List<Integer> data;
-
-    public ConcreteAggregate() {
-        this.data = new ArrayList<>();
+// Concrete Aggregate class
+class ConcreteAggregate {
+    constructor() {
+        this.data = [];
     }
 
-    public void addData(int val) {
-        data.add(val);
+    addData(value) {
+        this.data.push(value);
     }
 
-    @Override
-    public Iterator getIterator() {
-        return new ConcreteIterator(this);
-    }
-
-    public List<Integer> getData() {
-        return data;
+    getIterator() {
+        return new Iterator(this.data);
     }
 }
 
-public class IteratorPattern {
-    public static void main(String[] args) {
-        ConcreteAggregate aggregate = new ConcreteAggregate();
-        for (int i = 0; i < 5; i++) {
-            aggregate.addData(i);
-        }
+// Client code
+const aggregate = new ConcreteAggregate();
+aggregate.addData("Item 1");
+aggregate.addData("Item 2");
+aggregate.addData("Item 3");
 
-        Iterator iterator = aggregate.getIterator();
-        while (iterator.hasNext()) {
-            System.out.print(iterator.next() + " ");
-        }
-    }
+const iterator = aggregate.getIterator();
+
+while (iterator.hasNext()) {
+    console.log(iterator.next());
 }
+
+/*
+Item 1
+Item 2
+Item 3
+*/

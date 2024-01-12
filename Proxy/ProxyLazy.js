@@ -1,29 +1,36 @@
-interface Subject {
-    void request();
-}
-
-class RealSubject implements Subject {
-    @Override
-    public void request() {
-        System.out.println("Concrete Subject Request Method");
+// Interface
+class Subject {
+    request() {
+        throw new Error('request method must be implemented');
     }
 }
 
-class Proxy implements Subject {
-    private RealSubject realSubject;
+// RealSubject class
+class RealSubject extends Subject {
+    request() {
+        console.log("Concrete Subject Request Method");
+    }
+}
 
-    @Override
-    public void request() {
-        if (realSubject == null) {
-            realSubject = new RealSubject(); // Lazy Initialization
+// Proxy class
+class Proxy extends Subject {
+    constructor() {
+        super();
+        this.realSubject = null;
+    }
+
+    request() {
+        if (!this.realSubject) {
+            this.realSubject = new RealSubject(); // Lazy Initialization
         }
-        realSubject.request();
+        this.realSubject.request();
     }
 }
 
-public class ProxyLazy {
-    public static void main(String[] args) {
-        Proxy proxy = new Proxy();
-        proxy.request();
-    }
-}
+// Client code
+const proxy = new Proxy();
+proxy.request();
+
+/*
+Concrete Subject Request Method
+*/

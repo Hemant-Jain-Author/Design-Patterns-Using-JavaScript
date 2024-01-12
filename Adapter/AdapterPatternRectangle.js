@@ -1,58 +1,54 @@
 // Desired Interface
-interface Shape {
-    void draw();
+class Shape {
+    draw() {
+        throw new Error("Abstract method: draw");
+    }
 }
 
 // Circle class
-class Circle implements Shape {
-    private int x, y, radius;
-
-    public Circle(int x, int y, int r) {
+class Circle extends Shape {
+    constructor(x, y, radius) {
+        super();
         this.x = x;
         this.y = y;
-        this.radius = r;
+        this.radius = radius;
     }
 
-    @Override
-    public void draw() {
-        System.out.println("Draw the Circle.");
+    draw() {
+        console.log("Draw the Circle.");
     }
 }
 
 // Rectangle class (Adaptee)
 class Rectangle {
-    private int x, y, length, width;
-
-    public Rectangle(int x, int y, int l, int w) {
+    constructor(x, y, length, width) {
         this.x = x;
         this.y = y;
-        this.length = l;
-        this.width = w;
+        this.length = length;
+        this.width = width;
     }
 
-    public void oldDraw() {
-        System.out.println("Drawing Rectangle.");
+    oldDraw() {
+        console.log("Drawing Rectangle.");
     }
 }
 
 // RectangleAdapter class
-class RectangleAdapter implements Shape {
-    private Rectangle adaptee;
-
-    public RectangleAdapter(int x, int y, int l, int w) {
-        this.adaptee = new Rectangle(x, y, l, w);
+class RectangleAdapter extends Shape {
+    constructor(x, y, length, width) {
+        super();
+        this.adaptee = new Rectangle(x, y, length, width);
     }
 
-    @Override
-    public void draw() {
-        adaptee.oldDraw();
+    draw() {
+        this.adaptee.oldDraw();
     }
 }
 
 // Client Code
-public class AdapterPatternRectangle {
-    public static void main(String[] args) {
-        Shape adapter = new RectangleAdapter(1, 2, 3, 4);
-        adapter.draw();
-    }
-}
+const adapter = new RectangleAdapter(1, 2, 3, 4);
+adapter.draw();
+
+/*
+Drawing Rectangle.
+*/
