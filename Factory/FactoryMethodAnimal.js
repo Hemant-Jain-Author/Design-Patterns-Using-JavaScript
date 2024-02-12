@@ -45,6 +45,13 @@ dogFactory.getAnimal().voice();
 const catFactory = new CatFactory();
 catFactory.getAnimal().voice();
 
+
+/*
+Bhow Bhow!!
+Meow Meow!!
+*/
+
+
 // Future changes to include cow type of objects.
 class Cow extends Animal {
     voice() {
@@ -63,7 +70,5 @@ const cowFactory = new CowFactory();
 cowFactory.getAnimal().voice();
 
 /*
-Bhow Bhow!!
-Meow Meow!!
 Gooaa Gooaa!!
 */

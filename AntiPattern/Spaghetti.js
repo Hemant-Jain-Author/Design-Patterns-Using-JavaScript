@@ -1,44 +1,50 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-
-public class Spaghetti {
-public static ResultSet processData(String data) throws SQLException {
-    // Validate input
-    if (data == null || data.isEmpty()) {
-        System.out.println("Invalid data");
-        return null;
+class Spaghetti {
+    constructor() {
+        // Define connection parameters
+        this.url = 'jdbc:postgresql://localhost:5432/mydb';
+        this.user = 'user';
+        this.password = 'password';
     }
 
-    // Define connection parameters
-    String url = "jdbc:postgresql://localhost:5432/mydb";
-    String user = "user";
-    String password = "password";
+    async processData(data) {
+        // Validate input
+        if (!data || data.trim() === '') {
+            console.log('Invalid data');
+            return null;
+        }
 
-    // Initialize variables
-    Connection connection = null;
-    PreparedStatement statement = null;
-    ResultSet resultSet = null;
+        // Initialize variables
+        let client = null;
+        let resultSet = null;
 
-    // Connect to the database
-    connection = DriverManager.getConnection(url, user, password);
+        try {
+            // Connect to the database
+            client = new Client({
+                connectionString: this.url,
+                user: this.user,
+                password: this.password
+            });
+            await client.connect();
 
-    // Process data
-    String query = "SELECT * FROM mytable WHERE data = ?";
-    statement = connection.prepareStatement(query);
-    statement.setString(1, data);
-    resultSet = statement.executeQuery();
+            // Process data
+            const query = 'SELECT * FROM mytable WHERE data = $1';
+            const values = [data];
+            resultSet = await client.query(query, values);
 
-    return resultSet;
-}
-
-    // Example usage
-    public static void main(String[] args) throws SQLException {
-        String data = "exampleData";
-        ResultSet results = processData(data);
-        // Process the results if needed
+            return resultSet.rows;
+        } catch (error) {
+            console.error('Error executing query:', error);
+            return null;
+        } finally {
+            // Close the client connection
+            if (client) {
+                await client.end();
+            }
+        }
     }
 }
+
+// Client code
+const spaghetti = new Spaghetti();
+const data = 'exampleData';
+spaghetti.processData(data);

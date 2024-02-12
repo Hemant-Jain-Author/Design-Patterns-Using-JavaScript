@@ -1,108 +1,81 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
 // Model
 class Model {
-    private String data;
-    private List<View> observers;
-
-    public Model() {
-        this.observers = new ArrayList<>();
+    constructor() {
+        this.data = '';
+        this.observers = [];
     }
 
-    public void setData(String data) {
-        System.out.println("Model : Set data.");
+    setData(data) {
+        console.log("Model : Set data.");
         this.data = data;
-        notifyObservers();
+        this.notifyObservers();
     }
 
-    public String getData() {
-        System.out.println("Model : Get data.");
+    getData() {
+        console.log("Model : Get data.");
         return this.data;
     }
 
-    public void addObserver(View observer) {
-        this.observers.add(observer);
+    addObserver(observer) {
+        this.observers.push(observer);
     }
 
-    public void removeObserver(View observer) {
-        this.observers.remove(observer);
+    removeObserver(observer) {
+        this.observers = this.observers.filter(obs => obs !== observer);
     }
 
-    public void notifyObservers() {
-        System.out.println("Model : Notify observers.");
-        for (View observer : observers) {
-            observer.update();
-        }
+    notifyObservers() {
+        console.log("Model : Notify observers.");
+        this.observers.forEach(observer => observer.update());
     }
 }
 
 // View
 class View {
-    private Controller controller;
-    private Model model;
-
-    public View(Model model, Controller controller) {
+    constructor(model, controller) {
         this.model = model;
         this.controller = controller;
         this.model.addObserver(this);
     }
 
-    public void update() {
-        System.out.println("View : Update.");
-        String data = model.getData();
-        System.out.println("Data: " + data);
+    update() {
+        console.log("View : Update.");
+        const data = this.model.getData();
+        console.log("Data: " + data);
     }
 
-    public void getUserInput() {
-        try (Scanner scanner = new Scanner(System.in)) {
-            System.out.print("View : Enter user input: ");
-            //String userInput = "hello, world!";
-            //System.out.println(userInput);
-            String userInput = scanner.nextLine();
-            controller.handleUserInput(userInput);
-        }
+    getUserInput() {
+        const readline = require('readline').createInterface({
+            input: process.stdin,
+            output: process.stdout
+        });
+
+        readline.question('View : Enter user input: ', userInput => {
+            this.controller.handleUserInput(userInput);
+            readline.close();
+        });
     }
 }
 
 // Controller
 class Controller {
-    private Model model;
-    private View view;
-
-    public Controller(Model m) {
-        this.model = m;
+    constructor(model) {
+        this.model = model;
     }
 
-    public void handleUserInput(String userInput) {
-        System.out.println("Controller : Handle user input.");
-        model.setData(userInput);
-        // Can inform view about action.
+    handleUserInput(userInput) {
+        console.log("Controller : Handle user input.");
+        this.model.setData(userInput);
     }
 
-    public void setView(View v) {
-        this.view = v;
+    setView(view) {
+        this.view = view;
     }
 }
 
-// Main class
-public class MVC {
-    public static void main(String[] args) {
-        Model model = new Model();
-        Controller controller = new Controller(model);  // The Controller sets itself as the observer in this case
-        View view = new View(model, controller);
-        controller.setView(view);
-        view.getUserInput();
-    }
-}
-
-/*
-View : Enter user input: hello, world!
-Controller : Handle user input.
-Model : Set data.
-Model : Notify observers.
-View : Update.
-Model : Get data.
-Data: hello, world!
- */
+// Client code
+const model = new Model();
+const controller = new Controller(model);
+const view = new View(model, controller);
+controller.setView(view);
+view.getUserInput();

@@ -1,15 +1,15 @@
 class Rectangle {
-    constructor(height, width) {
-        this.height = height;
-        this.width = width;
+    constructor(l, w) {
+        this.height = l;
+        this.width = w;
     }
 
-    setWidth(width) {
-        this.width = width;
+    setWidth(w) {
+        this.width = w;
     }
 
-    setHeight(height) {
-        this.height = height;
+    setHeight(h) {
+        this.height = h;
     }
 
     getWidth() {
@@ -22,18 +22,18 @@ class Rectangle {
 }
 
 class Square extends Rectangle {
-    constructor(sideLength) {
-        super(sideLength, sideLength);
+    constructor(l) {
+        super(l, l);
     }
 
-    setWidth(width) {
-        super.setWidth(width);
-        super.setHeight(width);
+    setWidth(w) {
+        super.setWidth(w);
+        super.setHeight(w);
     }
 
-    setHeight(height) {
-        super.setHeight(height);
-        super.setWidth(height);
+    setHeight(h) {
+        super.setHeight(h);
+        super.setWidth(h);
     }
 }
 
@@ -51,15 +51,15 @@ function testSquare() {
 function testRect(rect) {
     rect.setHeight(10);
     rect.setWidth(20);
-    if (200 === rect.getHeight() * rect.getWidth())
+    if (200 === rect.getHeight() * rect.getWidth()) {
         console.log("success");
-    else
+    } else {
         console.log("failure");
+    }
 }
 
 testRectangle();
 testSquare();
-
 
 /*
 success

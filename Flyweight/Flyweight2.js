@@ -35,7 +35,7 @@ class FlyweightFactory {
     }
 }
 
-// Example usage
+// Client code
 const factory = new FlyweightFactory();
 
 const flyweight1 = factory.getFlyweight("sharedState");

@@ -1,75 +1,67 @@
-import java.util.Scanner;
-
 // Model
 class Model {
-    private String data;
-
-    public Model() {
+    constructor() {
         this.data = "Hello";
     }
 
-    public void setData(String data) {
-        System.out.println("Model: Set data: " + data);
+    setData(data) {
+        console.log("Model: Set data: " + data);
         this.data = data;
     }
 
-    public String getData() {
-        System.out.println("Model: Get data: " + this.data);
+    getData() {
+        console.log("Model: Get data: " + this.data);
         return this.data;
     }
 }
 
 // View
 class View {
-    public String getUserInput() {
-        System.out.println("View: getUserInput");
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("View: Enter user input: ");
-        String userInput = "Hello, World!";
-        System.out.println(userInput);
-        //String userInput = scanner.nextLine();
+    getUserInput() {
+        console.log("View: getUserInput");
+        console.log("View: Enter user input: ");
+        const userInput = "Hello, World!";
+        console.log(userInput);
+        
         return userInput;
     }
 
-    public void displayData(String data) {
-        System.out.println("View: Display Result: " + data);
+    getUserInput2() {
+        console.log("View: getUserInput");
+        const readline = require('readline').createInterface({
+            input: process.stdin,
+            output: process.stdout
+        });
+
+        readline.question('View : Enter user input: ', userInput => {
+            this.controller.handleUserInput(userInput);
+            readline.close();
+        });
+    }
+
+    displayData(data) {
+        console.log("View: Display Result: " + data);
     }
 }
 
 // Presenter
 class Presenter {
-    private Model model;
-    private View view;
-
-    public Presenter(Model model, View view) {
+    constructor(model, view) {
         this.model = model;
         this.view = view;
     }
 
-    public void onButtonClick() {
-        System.out.println("Presenter: onButtonClick.");
-        String data = this.view.getUserInput();
+    onButtonClick() {
+        console.log("Presenter: onButtonClick.");
+        const data = this.view.getUserInput();
         this.model.setData(data);
-        data = this.model.getData();
-        this.view.displayData(data);
+        const newData = this.model.getData();
+        this.view.displayData(newData);
     }
 }
 
-// Main class
-public class MVP {
-    public static void main(String[] args) {
-        Model model = new Model();
-        View view = new View();
-        Presenter presenter = new Presenter(model, view);
-        presenter.onButtonClick();
-    }
-}
-
-/* 
-Presenter: onButtonClick.
-View: getUserInput
-View: Enter user input: Hello, World!
-Model: Set data: Hello, World!
-Model: Get data: Hello, World!
-View: Display Result: Hello, World!
-*/
+// Client code
+const model = new Model();
+const view = new View();
+const presenter = new Presenter(model, view);
+presenter.onButtonClick();

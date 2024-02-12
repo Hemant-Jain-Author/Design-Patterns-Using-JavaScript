@@ -1,15 +1,45 @@
+class Animal {
+    constructor(name) {
+        this.name = name;
+    }
+
+    makeSound() {
+        console.log("Animal sound");
+    }
+}
+
+class Dog extends Animal {
+    constructor(name) {
+        super(name);
+    }
+
+    makeSound() {
+        console.log("woof woof!");
+    }
+}
+
+class Cat extends Animal {
+    constructor(name) {
+        super(name);
+    }
+
+    makeSound() {
+        console.log("meow!");
+    }
+}
+
 class Rectangle {
-    constructor(height, width) {
-        this.height = height;
-        this.width = width;
+    constructor(l, w) {
+        this.height = l;
+        this.width = w;
     }
 
-    setWidth(width) {
-        this.width = width;
+    setWidth(w) {
+        this.width = w;
     }
 
-    setHeight(height) {
-        this.height = height;
+    setHeight(h) {
+        this.height = h;
     }
 
     getWidth() {
@@ -22,44 +52,36 @@ class Rectangle {
 }
 
 class Square extends Rectangle {
-    constructor(sideLength) {
-        super(sideLength, sideLength);
+    constructor(l) {
+        super(l, l);
     }
 
-    setWidth(width) {
-        super.setWidth(width);
-        super.setHeight(width);
+    setWidth(w) {
+        super.setWidth(w);
+        super.setHeight(w);
     }
 
-    setHeight(height) {
-        super.setWidth(height);
-        super.setHeight(height);
+    setHeight(h) {
+        super.setWidth(h);
+        super.setHeight(h);
     }
-}
-
-function testRectangle() {
-    const r = new Rectangle(10, 20);
-    testRect(r);
-}
-
-function testSquare() {
-    const s = new Square(10);
-    s.setWidth(20);
-    testRect(s);
 }
 
 function testRect(rect) {
     rect.setHeight(10);
     rect.setWidth(20);
-    if (200 === rect.getHeight() * rect.getWidth())
+    if (200 === rect.getHeight() * rect.getWidth()) {
         console.log("success");
-    else
+    } else {
         console.log("failure");
+    }
 }
 
-testRectangle();
-testSquare();
-
+// Client code
+const r = new Rectangle(10, 20);
+testRect(r);
+const s = new Square(10);
+testRect(s);
 
 /*
 success

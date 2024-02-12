@@ -1,89 +1,70 @@
-
-
-import java.util.Scanner;
-
-//Model
+// Model
 class Model {
-    private String data = "Default.";
+    constructor() {
+        this.data = "Default.";
+    }
 
-    public void setData(String data) {
-        System.out.println("Model: Set data.");
+    setData(data) {
+        console.log("Model: Set data.");
         this.data = data;
     }
 
-    public String getData() {
-        System.out.println("Model: Get data.");
-        return data;
-    }
-}
-
-//View
-class View {
-    private ViewModel viewModel;
-
-    public View(ViewModel viewModel) {
-        this.viewModel = viewModel;
-    }
-
-    public void displayData() {
-        System.out.println("Display Data: " + viewModel.getData());
-    }
-
-    public void getUserInput() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("View: Enter user input: ");
-        String userInput = scanner.nextLine();
-        viewModel.setData(userInput);
+    getData() {
+        console.log("Model: Get data.");
+        return this.data;
     }
 }
 
 // ViewModel
 class ViewModel {
-    private Model model;
-
-    public ViewModel(Model model) {
+    constructor(model) {
         this.model = model;
     }
 
-    public void setData(String data) {
-        System.out.println("ViewModel: Set data.");
-        model.setData(data);
+    setData(data) {
+        console.log("ViewModel: Set data.");
+        this.model.setData(data);
     }
 
-    public String getData() {
-        System.out.println("ViewModel: Get data.");
-        return model.getData();
+    getData() {
+        console.log("ViewModel: Get data.");
+        return this.model.getData();
+    }
+}
+
+// View
+class View {
+    constructor(viewModel) {
+        this.viewModel = viewModel;
+    }
+
+    displayData() {
+        console.log("Display Data: " + this.viewModel.getData());
+    }
+
+    getUserInput() {
+        const readline = require('readline').createInterface({
+            input: process.stdin,
+            output: process.stdout
+        });
+
+        readline.question('View : Enter user input: ', userInput => {
+            this.viewModel.setData(userInput);
+            readline.close();
+        });
     }
 }
 
 // Client code
-public class MVVM {
-    public static void main(String[] args) {
-        Model model = new Model();
-        ViewModel viewModel = new ViewModel(model);
-        View view = new View(viewModel);
+const model = new Model();
+const viewModel = new ViewModel(model);
+const view = new View(viewModel);
 
-        // Display initial data
-        view.displayData();
+// Display initial data
+view.displayData();
 
-        // Get user input and update data
-        view.getUserInput();
+// Get user input and update data
+view.getUserInput();
 
-        // Display updated data
-        view.displayData();
-    }
-}
-
-
-
-/*
-ViewModel: Get data.
-Model: Get data.
-Display Data: Default.
-View: Enter user input: hello, world!
-ViewModel: Set data.
-Model: Set data.
-ViewModel: Get data.
-Model: Get data.
-Display Data: hello, world!
-*/
+// Display updated data
+view.displayData();

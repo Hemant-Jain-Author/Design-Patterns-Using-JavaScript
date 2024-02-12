@@ -38,7 +38,7 @@ class Subscriber {
     }
 }
 
-// Main class (Client code)
+// Client code
 const pub = new Publisher();
 
 const sub1 = new Subscriber("Subscriber1");

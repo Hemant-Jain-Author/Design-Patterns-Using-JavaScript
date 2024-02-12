@@ -1,57 +1,48 @@
-public class SwissArmy {
-    
-}
-
-public class DataProcessor {
-    private String data;
-
-    public DataProcessor(String data) {
+class DataProcessor {
+    constructor(data) {
         this.data = data;
     }
 
-    public void processData() {
-        validateData();
-        cleanData();
-        filterData();
-        sortData();
-        groupData();
-        calculateStatistics();
-        formatOutput();
+    processData() {
+        this.validateData();
+        this.cleanData();
+        this.filterData();
+        this.sortData();
+        this.groupData();
+        this.calculateStatistics();
+        this.formatOutput();
     }
 
-    private void validateData() {
+    validateData() {
         // Validation logic
     }
 
-    private void cleanData() {
+    cleanData() {
         // Data cleaning logic
     }
 
-    private void filterData() {
+    filterData() {
         // Data filtering logic
     }
 
-    private void sortData() {
+    sortData() {
         // Data sorting logic
     }
 
-    private void groupData() {
+    groupData() {
         // Data grouping logic
     }
 
-    private void calculateStatistics() {
+    calculateStatistics() {
         // Statistics calculation logic
     }
 
-    private void formatOutput() {
+    formatOutput() {
         // Output formatting logic
-    }
-
-    // Example usage
-    public static void main(String[] args) {
-        String data = "exampleData";
-        DataProcessor processor = new DataProcessor(data);
-        processor.processData();
     }
 }
 
+// Client code
+const data = "exampleData";
+const processor = new DataProcessor(data);
+processor.processData();

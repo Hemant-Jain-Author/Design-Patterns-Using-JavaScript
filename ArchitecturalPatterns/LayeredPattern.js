@@ -1,76 +1,58 @@
-import java.util.ArrayList;
-import java.util.List;
-
 // Data Access Layer
 class DataAccessLayer {
-    private List<String> products;
-
-    public DataAccessLayer() {
-        this.products = new ArrayList<>();
+    constructor() {
+        this.products = [];
     }
 
-    public List<String> getData() {
+    getData() {
         return this.products;
     }
 
-    public void addData(String product) {
-        this.products.add(product);
+    addData(product) {
+        this.products.push(product);
     }
 }
 
 // Business Logic Layer
 class BusinessLogicLayer {
-    private DataAccessLayer dataAccess;
-
-    public BusinessLogicLayer(DataAccessLayer dataAccess) {
+    constructor(dataAccess) {
         this.dataAccess = dataAccess;
     }
 
-    public List<String> getAllProducts() {
+    getAllProducts() {
         return this.dataAccess.getData();
     }
 
-    public void addProduct(String product) {
+    addProduct(product) {
         this.dataAccess.addData(product);
     }
 }
 
 // Presentation Layer
 class PresentationLayer {
-    private BusinessLogicLayer businessLogic;
-
-    public PresentationLayer(BusinessLogicLayer businessLogic) {
+    constructor(businessLogic) {
         this.businessLogic = businessLogic;
     }
 
-    public void displayProducts() {
-        List<String> products = this.businessLogic.getAllProducts();
-        for (int i = 0; i < products.size(); i++) {
-            System.out.println((i + 1) + ". " + products.get(i));
-        }
+    displayProducts() {
+        const products = this.businessLogic.getAllProducts();
+        products.forEach((product, index) => {
+            console.log(`${index + 1}. ${product}`);
+        });
     }
 
-    public void addProduct(String product) {
+    addProduct(product) {
         this.businessLogic.addProduct(product);
     }
 }
 
-// Main class
-public class LayeredPattern {
-    public static void main(String[] args) {
-        DataAccessLayer dataAccess = new DataAccessLayer();
-        BusinessLogicLayer businessLogic = new BusinessLogicLayer(dataAccess);
-        PresentationLayer presentationLayer = new PresentationLayer(businessLogic);
+// Client code
+const dataAccess = new DataAccessLayer();
+const businessLogic = new BusinessLogicLayer(dataAccess);
+const presentationLayer = new PresentationLayer(businessLogic);
 
-        presentationLayer.addProduct("Apple");
-        presentationLayer.addProduct("Banana");
-        presentationLayer.addProduct("Mango");
-        presentationLayer.displayProducts();
-    }
-}
+presentationLayer.addProduct("Apple");
+presentationLayer.addProduct("Banana");
+presentationLayer.addProduct("Mango");
+presentationLayer.displayProducts();
 
-/*
-1. Apple
-2. Banana
-3. Mango
-*/

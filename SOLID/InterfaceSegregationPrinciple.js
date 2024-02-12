@@ -1,56 +1,75 @@
-// Mixins
-const PrintableMixin = {
+// Printer Interface
+class Printer {
     print(document) {
-        console.log(`Printing: ${document}`);
+        throw new Error('You have to implement the method print!');
     }
-};
 
-const ScannableMixin = {
     scan() {
-        console.log("Scanning");
+        throw new Error('You have to implement the method scan!');
     }
-};
 
-const FaxableMixin = {
     fax(document) {
-        console.log(`Faxing: ${document}`);
+        throw new Error('You have to implement the method fax!');
     }
-};
-
-// Classes using mixins
-class BasicInkjetPrinter {
-    constructor() {
-        // Using object spread syntax to apply mixins
-        Object.assign(this, PrintableMixin, ScannableMixin);
-    }
-
-    // Additional methods or overrides specific to BasicInkjetPrinter can be added here
 }
 
-class HighEndOfficePrinter {
-    constructor() {
-        // Using object spread syntax to apply mixins
-        Object.assign(this, PrintableMixin, ScannableMixin, FaxableMixin);
+// Printable Interface
+class Printable {
+    print(document) {
+        throw new Error('You have to implement the method print!');
+    }
+}
+
+// Scannable Interface
+class Scannable {
+    scan() {
+        throw new Error('You have to implement the method scan!');
+    }
+}
+
+// Faxable Interface
+class Faxable {
+    fax(document) {
+        throw new Error('You have to implement the method fax!');
+    }
+}
+
+// BasicInkjetPrinter Class
+class BasicInkjetPrinter extends Printable {
+    print(document) {
+        console.log(`Printing ${document} using basic inkjet printer`);
+    }
+}
+
+// HighEndOfficePrinter Class
+class HighEndOfficePrinter extends Printer {
+    print(document) {
+        console.log(`Printing ${document} using high end office printer`);
     }
 
-    // Additional methods or overrides specific to HighEndOfficePrinter can be added here
+    scan() {
+        console.log("Scanning using high end office printer");
+    }
+
+    fax(document) {
+        console.log(`Faxing ${document} using high end office printer`);
+    }
 }
 
 // Client code
+// BasicInkjetPrinter
 const basicPrinter = new BasicInkjetPrinter();
 basicPrinter.print("Sample Document");
-basicPrinter.scan();
 
+// HighEndOfficePrinter
 const officePrinter = new HighEndOfficePrinter();
 officePrinter.print("Important Report");
 officePrinter.scan();
 officePrinter.fax("Confidential Memo");
 
-
 /*
-Printing: Sample Document
-Scanning
-Printing: Important Report
-Scanning
-Faxing: Confidential Memo
+Printing Sample Document using basic inkjet printer
+Printing Important Report using high end office printer
+Scanning using high end office printer
+Faxing Confidential Memo using high end office printer
 */

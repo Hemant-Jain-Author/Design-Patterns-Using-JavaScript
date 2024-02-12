@@ -63,6 +63,7 @@ class ConcreteColleague2 extends Colleague {
     }
 }
 
+// Client code
 const mediator = new Mediator();
 const first = new ConcreteColleague1(mediator);
 mediator.addColleague(first);

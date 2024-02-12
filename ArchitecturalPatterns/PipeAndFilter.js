@@ -1,72 +1,61 @@
-
-import java.util.ArrayList;
-import java.util.List;
-
 // Filter Base Class
-abstract class Filter {
-    abstract String process(String data);
+class Filter {
+    process(data) {
+        throw new Error('You have to implement the method process!');
+    }
 }
 
 // Filters
 class CapitalizeFilter extends Filter {
-    @Override
-    String process(String data) {
+    process(data) {
         return data.toUpperCase();
     }
 }
 
 class ReplaceSpaceFilter extends Filter {
-    @Override
-    String process(String data) {
-        return data.replace(" ", "_");
+    process(data) {
+        return data.replace(/ /g, '_');
     }
 }
 
 class RemoveSpecialCharactersFilter extends Filter {
-    @Override
-    String process(String data) {
-        String specialCharacters = ",@!";
-        StringBuilder result = new StringBuilder();
-        for (char c : data.toCharArray()) {
-            if (specialCharacters.indexOf(c) == -1) {
-                result.append(c);
+    process(data) {
+        const specialCharacters = ",@!";
+        let result = '';
+        for (let i = 0; i < data.length; i++) {
+            if (specialCharacters.indexOf(data[i]) === -1) {
+                result += data[i];
             }
         }
-        return result.toString();
+        return result;
     }
 }
 
 // Data Processing Pipeline
 class DataProcessingPipeline {
-    private List<Filter> filters;
-
-    public DataProcessingPipeline() {
-        this.filters = new ArrayList<>();
+    constructor() {
+        this.filters = [];
     }
 
-    public void addFilter(Filter filter) {
-        this.filters.add(filter);
+    addFilter(filter) {
+        this.filters.push(filter);
     }
 
-    public String processData(String data) {
-        for (Filter filter : this.filters) {
-            data = filter.process(data);
-        }
-        return data;
-    }
-}
-
-// Main class
-public class PipeAndFilter {
-    public static void main(String[] args) {
-        DataProcessingPipeline pipeline = new DataProcessingPipeline();
-        pipeline.addFilter(new CapitalizeFilter());
-        pipeline.addFilter(new ReplaceSpaceFilter());
-        pipeline.addFilter(new RemoveSpecialCharactersFilter());
-
-        String data = "Hello, World!";
-        String result = pipeline.processData(data);
-        System.out.println("Result: " + result);  // Output: "HELLO_WORLD"
+    processData(data) {
+        let processedData = data;
+        this.filters.forEach(filter => {
+            processedData = filter.process(processedData);
+        });
+        return processedData;
     }
 }
 
+// Client code
+const pipeline = new DataProcessingPipeline();
+pipeline.addFilter(new CapitalizeFilter());
+pipeline.addFilter(new ReplaceSpaceFilter());
+pipeline.addFilter(new RemoveSpecialCharactersFilter());
+
+const data = "Hello, World!";
+const result = pipeline.processData(data);
+console.log("Result: " + result);  

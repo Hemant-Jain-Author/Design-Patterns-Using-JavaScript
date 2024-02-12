@@ -83,6 +83,7 @@ class Interpreter {
     }
 }
 
+// Client code
 const context = new Context();
 context.setValue("x", 10);
 context.setValue("y", 5);

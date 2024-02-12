@@ -1,17 +1,12 @@
-public class GodsObject {
-    private List<Object> data;
-    private User user;
-    private Database db;
-    private Mailer mailer;
-
-    public GodObject() {
-        this.data = new ArrayList<>();
+class GodsObject {
+    constructor() {
+        this.data = [];
         this.user = new User();
         this.db = new Database();
         this.mailer = new Mailer();
     }
 
-    public void processData() {
+    processData() {
         // Process data
         this.db.connect();
         this.user.authenticate();
@@ -19,7 +14,7 @@ public class GodsObject {
         this.db.disconnect();
     }
 
-    public void validateData() {
+    validateData() {
         // Validate data
         this.user.authorize();
         this.db.connect();
@@ -27,11 +22,11 @@ public class GodsObject {
         this.db.disconnect();
     }
 
-    public void sendNotification() {
+    sendNotification() {
         // Send notification
         this.user.authorize();
         this.db.connect();
-        List<Object> data = this.db.query();
+        const data = this.db.query();
         this.mailer.sendEmail(data);
         this.db.disconnect();
     }

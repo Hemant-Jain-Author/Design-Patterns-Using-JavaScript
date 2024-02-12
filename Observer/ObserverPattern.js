@@ -72,7 +72,7 @@ class ConcreteObserver2 extends Observer {
     }
 }
 
-// Main class (Client code)
+// Client code
 const subject = new ConcreteSubject();
 const observer1 = new ConcreteObserver1(subject);
 const observer2 = new ConcreteObserver2(subject);

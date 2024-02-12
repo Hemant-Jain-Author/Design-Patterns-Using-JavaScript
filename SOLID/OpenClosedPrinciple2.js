@@ -29,7 +29,6 @@ bird1.fly();
 const bird2 = new Bird("Dodo");
 bird2.fly();
 
-
 /*
 The eagle is soaring through the sky!
 The dodo is extinct and cannot fly.

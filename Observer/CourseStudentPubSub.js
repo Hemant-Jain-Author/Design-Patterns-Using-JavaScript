@@ -42,7 +42,7 @@ class Student extends Observer {
     }
 }
 
-// Main class (Client code)
+// Client code
 const courses = new Courses();
 const john = new Student("John");
 const eric = new Student("Eric");

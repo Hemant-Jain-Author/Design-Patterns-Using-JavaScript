@@ -63,8 +63,6 @@ const animal3 = new Bird("Eagle");
 animal3.layEggs();
 animal3.fly();
 
-
-
 /*
 Cat is giving birth to live young.
 Cat is making a sound.

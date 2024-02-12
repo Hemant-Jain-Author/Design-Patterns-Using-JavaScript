@@ -1,9 +1,11 @@
+// Animal Class
 class Animal {
     constructor(name) {
         this.name = name;
     }
 }
 
+// Bird Class
 class Bird extends Animal {
     constructor(name) {
         super(name);
@@ -11,10 +13,11 @@ class Bird extends Animal {
     }
 
     fly() {
-        // To be implemented in subclasses
+        throw new Error("You have to implement the method fly!");
     }
 }
 
+// Sparrow Class
 class Sparrow extends Bird {
     constructor(name) {
         super(name);
@@ -26,6 +29,7 @@ class Sparrow extends Bird {
     }
 }
 
+// Penguin Class
 class Penguin extends Bird {
     constructor(name) {
         super(name);
@@ -44,6 +48,7 @@ class Penguin extends Bird {
     }
 }
 
+// Dodo Class
 class Dodo extends Bird {
     constructor(name) {
         super(name);
@@ -54,6 +59,7 @@ class Dodo extends Bird {
     }
 }
 
+// Test Function
 function test(bird) {
     bird.fly();
     if (bird.flightHeight > 0) {
@@ -63,25 +69,21 @@ function test(bird) {
     }
 }
 
+// Client code
 const sparrow = new Sparrow("Sparrow");
 test(sparrow);
 
 const penguin = new Penguin("Penguin");
 test(penguin);
-penguin.slide();
-penguin.swim();
 
 const dodo = new Dodo("Dodo");
 test(dodo);
-
 
 /*
 The sparrow is fluttering its wings.
 Bird is flying at a positive height.
 The penguin cannot fly.
 Error: fly() method called; flight height is still zero.
-The penguin is sliding on its belly!
-The penguin is swimming in the water!
 The dodo is extinct and cannot fly.
 Error: fly() method called; flight height is still zero.
 */

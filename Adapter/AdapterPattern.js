@@ -25,7 +25,6 @@ class Adaptee {
 }
 
 // Client Code
-
 const adapter = new Adapter();
 adapter.operation();
 /*

@@ -1,39 +1,37 @@
-public class Blob {
-    private String data;
-
-    public Blob(String data) {
+class Blob {
+    constructor(data) {
         this.data = data;
     }
 
-    public void processData() {
+    processData() {
         // Process data
     }
 
-    public void validateData() {
+    validateData() {
         // Validate data
     }
 
-    public void saveData() {
+    saveData() {
         // Save data to database
     }
 
-    public void sendNotification() {
+    sendNotification() {
         // Send notification
     }
 
-    public void generateReport() {
+    generateReport() {
         // Generate report
     }
 
-    public void backupData() {
+    backupData() {
         // Backup data
     }
 
-    public void archiveData() {
+    archiveData() {
         // Archive data
     }
 
-    public void purgeData() {
+    purgeData() {
         // Purge data
     }
 

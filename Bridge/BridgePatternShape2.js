@@ -62,7 +62,7 @@ class MacAPI extends DrawingAPI {
     }
 }
 
-// Usage
+// Client code
 const windowsAPI = new WindowsAPI();
 const macAPI = new MacAPI();
 

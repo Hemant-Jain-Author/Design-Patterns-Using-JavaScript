@@ -62,6 +62,18 @@ class Sparrow extends Bird {
     }
 }
 
+// Client code
+const bird1 = new Eagle();
+bird1.fly();
+
+const bird2 = new Dodo();
+bird2.fly();
+
+/*
+The eagle is soaring through the sky!
+The dodo is extinct and cannot fly.
+*/
+
 class Pigeon extends Bird {
     constructor() {
         super("Pigeon");
@@ -77,17 +89,9 @@ class Pigeon extends Bird {
 }
 
 // Client code
-const bird1 = new Eagle();
-bird1.fly();
-
-const bird2 = new Dodo();
-bird2.fly();
-
 const bird3 = new Pigeon();
 bird3.fly();
 
 /*
-The eagle is soaring through the sky!
-The dodo is extinct and cannot fly.
 The pigeon is fluttering its wings!
 */

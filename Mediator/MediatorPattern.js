@@ -47,6 +47,7 @@ class Participant {
     }
 }
 
+// Client code
 const chatRoom = new ChatRoom();
 const james = new Participant("James", chatRoom);
 const michael = new Participant("Michael", chatRoom);
