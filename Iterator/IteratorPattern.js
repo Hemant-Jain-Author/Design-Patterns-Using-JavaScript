@@ -1,34 +1,45 @@
-// Iterator interface
-class Iterator {
-    constructor(collection) {
-        this.collection = collection;
-        this.index = 0;
-    }
-
-    next() {
-        if (this.hasNext()) {
-            return this.collection[this.index++];
-        }
-        return null;
-    }
-
-    hasNext() {
-        return this.index < this.collection.length;
-    }
+class Aggregate {
+    getIterator() {}
 }
 
-// Concrete Aggregate class
-class ConcreteAggregate {
+class ConcreteAggregate extends Aggregate {
     constructor() {
-        this.data = [];
+        super();
+        this._data = [];
     }
 
-    addData(value) {
-        this.data.push(value);
+    addData(val) {
+        this._data.push(val);
     }
 
     getIterator() {
-        return new Iterator(this.data);
+        return new ConcreteIterator(this);
+    }
+}
+
+class Iterator {
+    next() {}
+    hasNext() {}
+}
+
+class ConcreteIterator extends Iterator {
+    constructor(aggregate) {
+        super();
+        this._aggregate = aggregate;
+        this._index = 0;
+    }
+
+    next() {
+        if (this._index >= this._aggregate._data.length) {
+            throw new Error("StopIteration");
+        }
+        const val = this._aggregate._data[this._index];
+        this._index++;
+        return val;
+    }
+
+    hasNext() {
+        return this._index < this._aggregate._data.length;
     }
 }
 
@@ -43,9 +54,3 @@ const iterator = aggregate.getIterator();
 while (iterator.hasNext()) {
     console.log(iterator.next());
 }
-
-/*
-Item 1
-Item 2
-Item 3
-*/

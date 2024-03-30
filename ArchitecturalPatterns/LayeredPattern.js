@@ -56,3 +56,8 @@ presentationLayer.addProduct("Banana");
 presentationLayer.addProduct("Mango");
 presentationLayer.displayProducts();
 
+/*
+1. Apple
+2. Banana
+3. Mango
+*/

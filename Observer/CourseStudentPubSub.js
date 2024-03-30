@@ -1,9 +1,3 @@
-class Observer {
-    notify(subject, message) {
-        console.log(`${this.constructor.name} received message on subject '${subject}': ${message}`);
-    }
-}
-
 class Courses {
     constructor() {
         this.courseStudents = new Map();
@@ -35,10 +29,13 @@ class Courses {
     }
 }
 
-class Student extends Observer {
+class Student {
     constructor(name) {
-        super();
         this.name = name;
+    }
+
+    notify(subject, message) {
+        console.log(`${this.constructor.name} received message on subject '${subject}': ${message}`);
     }
 }
 

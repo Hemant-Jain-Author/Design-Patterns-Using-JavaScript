@@ -5,8 +5,14 @@ class Node {
     }
 }
 
-class LinkedListIterator {
+class Iterator {
+    next() {}
+    hasNext() {}
+}
+
+class LinkedListIterator extends Iterator {
     constructor(aggregate) {
+        super();
         this.aggregate = aggregate;
         this.current = aggregate.head;
     }
@@ -25,8 +31,13 @@ class LinkedListIterator {
     }
 }
 
-class LinkedList {
+class Iterable {
+    iterator() {}
+}
+
+class LinkedList extends Iterable {
     constructor() {
+        super();
         this.head = null;
         this.tail = null;
         this.size = 0;

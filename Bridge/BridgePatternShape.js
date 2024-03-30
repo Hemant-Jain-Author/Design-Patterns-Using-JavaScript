@@ -1,64 +1,74 @@
-// Abstraction interface
+// Abstraction abstract class
 class Shape {
-    constructor(color) {
-        this.imp = color;
+    constructor(imp) {
+        this.imp = imp;
     }
 
     draw() {
-        console.log(`Drawing ${this.constructor.name} with color ${this.imp.fill()}`);
-    }
-}
-
-// Implementor interface
-class Color {
-    fill() {
-        throw new Error("Abstract method: fill");
+        throw new Error('Method draw() must be implemented');
     }
 }
 
 // Rectangle class
 class Rectangle extends Shape {
-    constructor(color) {
-        super(color);
+    constructor(imp) {
+        super(imp);
+    }
+
+    draw() {
+        console.log(`Drawing Rectangle with colour ${this.imp.fill()}`);
     }
 }
 
 // Circle class
 class Circle extends Shape {
-    constructor(color) {
-        super(color);
+    constructor(imp) {
+        super(imp);
+    }
+
+    draw() {
+        console.log(`Drawing Circle with colour ${this.imp.fill()}`);
+    }
+}
+
+// Colour abstract class
+class Colour {
+    fill() {
+        throw new Error('Method fill() must be implemented');
     }
 }
 
 // Red class
-class Red extends Color {
+class Red extends Colour {
     fill() {
-        return "Red";
+        return 'Red';
     }
 }
 
 // Green class
-class Green extends Color {
+class Green extends Colour {
     fill() {
-        return "Green";
+        return 'Green';
     }
 }
 
 // Blue class
-class Blue extends Color {
+class Blue extends Colour {
     fill() {
-        return "Blue";
+        return 'Blue';
     }
 }
 
 // Client code
 const c1 = new Red();
-const abstraction = new Circle(c1);
+let abstraction = new Circle(c1);
 abstraction.draw();
 
 const c2 = new Green();
-const abstraction2 = new Rectangle(c2);
-abstraction2.draw();
+abstraction = new Rectangle(c2);
+abstraction.draw();
+
+
 
 /*
 Drawing Circle with color Red

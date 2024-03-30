@@ -32,7 +32,5 @@ class Singleton {
 // Client code
 const s1 = Singleton.getInstance();
 const s2 = Singleton.getInstance();
-
 console.log(s1 === s2); // true, because it's the same instance
-
 s1.addData("Hello, world!");
